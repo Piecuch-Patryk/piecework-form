@@ -1,0 +1,78 @@
+.register-bg {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	height: 100vh;
+	background-image: url(../img/pier.jpg);
+	background-size: cover;
+	background-position: center;
+}
+.register-bg .form-wrap {
+	border-radius: 1rem;
+	background-color: rgba(0,0,10,.9);
+	width: 45rem;
+	color: rgb(220,220,220);
+	padding: 0 4rem 4rem 4rem;
+	box-shadow: 0 0 1rem 0 rgba(255,255,255,.5);
+}
+.register-bg h1 {
+	text-align: center;
+	padding: 3rem 0;
+	letter-spacing: .1rem;
+}
+.register-bg .flex-wrap {
+	display: flex;
+	justify-content: space-between;
+}
+.register-bg .flex-wrap div {
+	text-align: right;
+}
+.register-bg .error-field {
+	text-align: center;
+	color: red;
+	font-size: 1.2rem;
+	letter-spacing: .1rem;
+	min-height: 1.2rem;
+}
+.register-bg .form-wrap input {
+	border: none;
+	padding: .2rem .5rem;
+	border-radius: .25rem;
+	box-shadow: inset 0 0 1rem .2rem rgba(0,0,10,.9);
+	transition: .5s;
+}
+.register-bg .form-wrap input:focus {
+	outline: none;
+	box-shadow: inset 0 0 .5rem 0 rgba(0,0,10,.9);
+}
+.register-bg .form-wrap input:valid {
+	box-shadow: inset 0 0 .5rem 0 rgba(0,0,10,.9);
+}
+.btn-wrap {
+	text-align: center;
+	padding-top: 2rem;
+}
+.register-bg .submit-btn {
+	border: none;
+	padding: .8rem 3rem;
+	cursor: pointer;
+	background-color: rgb(220,220,220);
+	border-radius: .5rem;
+	font-weight: bold;
+	color: rgba(0,0,10,.9);
+	box-shadow: inset 0 0 1rem .2rem rgba(0,0,10,.9);
+	transition: .5s;
+}
+.submit-btn:hover {
+	box-shadow: none;
+	box-shadow: inset 0 0 .5rem 0 rgba(0,0,10,.9);
+}
+.btn-wrap a {
+	color: rgb(220, 220, 220);
+	letter-spacing: .1rem;
+}
+
+
+
+
