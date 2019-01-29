@@ -31,8 +31,8 @@ $htmlContent = '
 				font-weight: bold;
 				font-size: 1.5rem;
 			}
-			.single-day.page-break {
-				page-break-after: always;
+			.single-day {
+				page-break-inside: avoid;
 			}
 			.single-day {
 				margin-bottom: 2rem;
