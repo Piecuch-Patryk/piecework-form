@@ -28,9 +28,20 @@ if(!$_SESSION['logged']){
 					echo $_SESSION['name'].' '.$_SESSION['surname'];
 				}
 				?></p>
-				<a href="../login/index.php" class="link-el">LogOut</a>
+				<a href="../app_php/logout.php" class="link-el">LogOut</a>
 			</div>
 		</header>
+		<!-- E-mail sent confirmation -->
+		<section class="confirmation 
+		<?php
+		if(isset($_SESSION['email_sent'])){
+			unset($_SESSION['email_sent']);
+			echo 'visible';
+		}else {
+			echo 'hidden';
+		}?>">
+			<h1>All done! E-mail has been sent.</h1>
+		</section>
 		<main>
 			<!-- Job sheet form -->
 			<section class="section-wrap">
