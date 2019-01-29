@@ -237,12 +237,18 @@ class WeekTotal {
 	}
 	headerTable(){
 		const $header = $('<thead>');
+		const $titleRow = this.row();
+		const $cell = $('<td class="cell">');
 		const $row = this.row();
+		$($cell).html('Weekly summary');
+		$($cell).attr('colspan', this.colNames.length);
+		$($titleRow).append($cell);
 		$(this.colNames).each((i, el) => {
 			const $th = $('<th class="column">');
 			$($th).html(el);
 			$($row).append($th);
 		});
+		$($header).append($titleRow);
 		$($header).append($row);
 		return $header;
 	}
