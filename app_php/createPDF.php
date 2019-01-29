@@ -56,6 +56,11 @@ $htmlContent = '
 				margin: .1rem;
 				white-space: nowrap;
 			}
+			.cell.cell-taller {
+				padding: 0 .5rem;
+				font-size: 1.25rem;
+				line-height: 3rem;
+			}
 		</style>
 	</head>
 	<body>
