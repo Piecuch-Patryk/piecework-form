@@ -263,6 +263,13 @@ if(!$_SESSION['logged']){
 	<!-- End bg-cover -->
 	</div>
 	
+	<!-- Loading animation -->
+	<div id="loading-animation" class="loading-animation-wrap">
+		<h5 class="animation-title">Sending...</h5>
+		<div class="loading-animation">
+			<div class="circle"></div>
+		</div>
+	</div>
 	<!-- Hidden form container for PDF files -->
 	<div id="hidden-pdf-form" style="display: none;"></div>
 	
