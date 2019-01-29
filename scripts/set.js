@@ -128,7 +128,10 @@ DatesCalc.prototype.setDates = function (){
 		$($boxes[i]).html(el);
 	});
 }
-
+// set loading animation;
+const setLoadingAnimation = function(){
+	$('#loading-animation').fadeIn(500);	
+}
 
 
 
