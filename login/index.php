@@ -44,9 +44,7 @@ if(isset($_SESSION['logged'])){
 	<footer class="login-footer">
 		<p>WagesApp@2019. Copyrights &copy; Patryk Piecuch </p>
 	</footer>
-	<?php
-	session_destroy();
-	?>
+	<?php $_SESSION = array(); ?>
 	<!-- jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
