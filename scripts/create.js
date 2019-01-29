@@ -385,6 +385,8 @@ const createPDF = () => {
 	$($form.$input_1).val(content);
 	$($form.$input_2).val(dates);
 	$form.appendForm();
+	// show loading animation;
+	setLoadingAnimation();
 	$form.submitForm();
 }
 
