@@ -269,7 +269,7 @@ class WeekTotal {
 				$($body).append($newRow);
 			}else {
 				$(this.colNames).each((i, el) => {
-					const $td = $('<td class="cell cell-higher">');
+					const $td = $('<td class="cell cell-taller">');
 					if(i == 2 || i == 4) $($td).html('£').addClass('top-corner');
 					$($newRow).append($td);
 				});
