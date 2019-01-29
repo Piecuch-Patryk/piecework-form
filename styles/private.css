@@ -310,16 +310,16 @@ input[type="date"],
 .active-day {
 	/* display: block; */
 }
-.section-wrap .table {
+.table {
 	width: 100%;
 	border: .1rem solid rgba(0,0,10,.9);
 	border-collapse: collapse;
 }
-.section-wrap .column {
+.column {
 	width: 14.28%;
 }
-.section-wrap .column,
-.section-wrap .cell {
+.column,
+.cell {
 	border: .1rem solid rgba(0,0,10,.9);
 	padding: .5rem;
 	text-align: center;
