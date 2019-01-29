@@ -352,6 +352,9 @@ footer p {
 	height: 100%;
 	display: none;
 }
+.hidden {
+	display: none;
+}
 
 
 
