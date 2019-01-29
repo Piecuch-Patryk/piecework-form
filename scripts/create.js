@@ -214,6 +214,62 @@ TableObj.prototype._currentTableObj = function(){
 		
 	return this;
 }
+// create week total table;
+class WeekTotal {
+	constructor(){
+		this.colNames = ['Day/Date', 'Invoice nos', 'Price A', 'Hourly', 'Price B', 'Day Total'];
+		this.rowsNumber = 6;
+	}
+	row(){
+		return $('<tr class="row">');
+	}
+	headerTable(){
+		const $header = $('<thead>');
+		const $row = this.row();
+		$(this.colNames).each((i, el) => {
+			const $th = $('<th class="column">');
+			$($th).html(el);
+			$($row).append($th);
+		});
+		$($header).append($row);
+		return $header;
+	}
+	bodyTable(){
+		const $body = $('<tbody>');
+		let numberRows = this.rowsNumber;
+		while(numberRows >= 0){
+			const $newRow = this.row();
+			// last row in table;
+			if(numberRows == 0) {
+				const $td = $('<td class="cell">');
+				const $td2 = $('<td class="cell">');
+				const lastStr = this.colNames;
+				$($td).attr('colspan', 5);
+				$($td).html('Week total (A + B)');
+				$($td2).html('£').addClass('top-corner');
+				$($newRow).append($td);
+				$($newRow).append($td2);
+				$($body).append($newRow);
+			}else {
+				$(this.colNames).each((i, el) => {
+					const $td = $('<td class="cell cell-higher">');
+					if(i == 2 || i == 4) $($td).html('£').addClass('top-corner');
+					$($newRow).append($td);
+				});
+				$($body).append($newRow);
+			}
+			numberRows--;
+		}		
+		return $body;
+	}
+	weekTable(){
+		const $table = $('<table class="table">');
+		$($table).append(this.headerTable());
+		$($table).append(this.bodyTable());
+		$($table).addClass('hidden');
+		return $table;
+	}
+}
 // create email;
 const createEmail = () => {
 	const $content = $('#content-email');
@@ -286,7 +342,7 @@ const createEmail = () => {
 }
 // Create PDF file;
 const createPDF = () => {
-	const content = $('#tables-container').html();
+	const content = $('#tables-container').html();	
 	const dates = [];	// current week dates array;
 	$('.day-nav span').each((i, el) => {
 		dates.push($(el).text());
@@ -309,7 +365,6 @@ const createPDF = () => {
 		}
 	}
 	const $form = new Form();
-	console.log($form);
 	$($form.$input_1).val(content);
 	$($form.$input_2).val(dates);
 	$form.appendForm();

@@ -1,7 +1,9 @@
 let jobSheet = new Job();
+const weekTotal = new WeekTotal();		// hidden table;
 const tables = [];
 
-document.addEventListener('DOMContentLoaded', () => {	
+document.addEventListener('DOMContentLoaded', () => {
+	
 	// Get available ranges from database and append to <Sselect>;
 	getRanges();
 	// Get available shelves from database;
@@ -92,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		newTable.index = i; 
 		tables.push(newTable);
 	});
+	
 	// Apend every table object to DOM;
 	$(tables).each((i, el) => {
 		$('#tables-container').append($(el.createTable(i)));
@@ -183,8 +186,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 	
 	// create email document;
-//	$('#generate-email').on('click', createEmail);
-	$('#generate-email').on('click', createPDF);
-	
+	$('#generate-email').on('click', function(){
+		const $div = $('<div class="single-day">');
+		$($div).append(weekTotal.weekTable());
+		$('#tables-container').append($div);
+		createPDF();
+	});
 	
 }, false);
