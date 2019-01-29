@@ -205,7 +205,6 @@ TableObj.prototype.createTable = function(index){
 	this.table.classList.add('table');
 	div.classList.add('single-day');
 	div.appendChild(this.table);
-	if(index == 1 || index == 3) div.classList.add('page-break');
 	if(index == 0) div.classList.add('active-day');
 	if(index == 0) div.style.display = 'block';
 	return div;
@@ -293,6 +292,7 @@ const createPDF = () => {
 		dates.push($(el).text());
 	});		
 	
+	// Hidden form object; Needed to send data to PHP to create PDF file;
 	class Form {
 		constructor(){
 			this.$form = $('<form action="../app_php/createPDF.php" method="POST">');
@@ -314,24 +314,6 @@ const createPDF = () => {
 	$($form.$input_2).val(dates);
 	$form.appendForm();
 	$form.submitForm();
-	
-	
-//	window.location.href = '../app_php/createPDF.php?pdfContent=' + content + '&date=' + dates;
-	
-	/*$.ajax({
-		type: 'POST',
-		url: '../app_php/createPDF.php',
-		data: {
-			content: content,
-			date: dates
-		},
-		dataType: 'json',
-		success: result => {
-			console.log(result);
-			window.open(result, '_blank');
-//			console.log(result);
-		}
-	});*/
 }
 
 
