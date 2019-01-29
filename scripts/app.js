@@ -1,6 +1,7 @@
 let jobSheet = new Job();
 const weekTotal = new WeekTotal();		// hidden table;
 const tables = [];
+let Datescalc;
 
 document.addEventListener('DOMContentLoaded', () => {
 	
@@ -85,7 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		$('.hidden-wrap').fadeOut(500);
 	});
 	
-	
+	// set last Mondays date in input[type="date"];
+	setLastMonday(new Date());
+	// current week dates object;
+	Datescalc = new DatesCalc();
 	
 	// Create table objects Mon-Fri;
 	const days = getDays();
@@ -112,14 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			// create new row in active table;
 			$('.active-day').find('tbody').prepend(jobSheet.prependRow());
 			
-			// Calculate Subtotal A+B;
-			// Calculate extra hours;
-			// Calculate day-total;
-			
-			console.log($currentTable._currentTableObj());
-			
-			console.log(currentTableObj());
-			
 			// count total price A+B;
 			setTotalJobRows();
 			
@@ -129,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			
 			setHeight();
 			
+			// RESET job-sheet form;
 			$('#invoice').val('');
 			$('#sizes').html('').append($('<option>').html('--please select--'));
 			// reset price fields;
@@ -152,11 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		setExtraHoursPrice(this);
 	});
 
-	
-	setLastMonday(new Date());
-	
-	// get last Monday of current week;
-	const Datescalc = new DatesCalc();
 	
 	// set dates in days nav;
 	Datescalc.setDates();

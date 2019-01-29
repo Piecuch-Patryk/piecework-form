@@ -193,9 +193,20 @@ TableObj.prototype.createRow = function (){
 	};
 	return row;
 }
+// title row;
+TableObj.prototype.titleRow = function(index){
+	const $row = $('<tr class="row">');
+	const $td = $('<td class="cell" colspan="100%">');
+	const date = Datescalc.calcWeekDates();
+	$($td).html(getDays(index) + ' ' + date[index]);
+	$($row).addClass('hidden');
+	$($row).append($td);
+	return $($row)[0];
+}
 // create table;
 TableObj.prototype.createTable = function(index){
 	const div = this.createTableEl('div');
+	this.thead.appendChild(this.titleRow(index));
 	this.thead.appendChild(this.createColumns(getColumns()));
 	this.table.appendChild(this.thead);
 	this.createRow().forEach((el, i) => {		
