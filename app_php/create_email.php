@@ -19,7 +19,7 @@ if(isset($_SESSION['pdf-path'])){
 	$mail->From = $_SESSION['email'];
 	$mail->FromName = $_SESSION['name'] . ' ' . $_SESSION['surname'];
 	// $mail->addAddress('joe@example.net', 'Joe User')     // Add a recipient
-	$mail->addAddress('patrykowo@gmail.com');               // Name is optional
+	$mail->addAddress('');               // Name is optional
 	$mail->addReplyTo($_SESSION['email'], $_SESSION['name'] . ' ' . $_SESSION['surname']);
 	// $mail->addCC('cc@example.com');
 	// $mail->addBCC('bcc@example.com');
@@ -38,7 +38,8 @@ if(isset($_SESSION['pdf-path'])){
 		echo 'Message could not be sent.';
 		echo 'Mailer Error: ' . $mail->ErrorInfo;
 	} else {
-		echo ('Message has been sent');
+		$_SESSION['email_sent'] = true;
+		header('Location: ../private/');
 	}
 }
 ?>
