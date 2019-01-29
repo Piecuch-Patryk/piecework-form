@@ -104,14 +104,11 @@ const setCurrentDay = function(){
     $(this).closest('ul').find('.active-nav').removeClass('active-nav');
     $($li[currentIndex]).addClass('active-nav');
     // current day;
-    $('.active-day').fadeOut(500);
+		// hide;
     $('.active-day').removeClass('active-day');
-	// wait 350ms before fadeIn;
-    setTimeout(function(){		
+		// show chosen one;
 		$($days[currentIndex]).addClass('active-day');
-		$($days[currentIndex]).fadeIn(500);
-	}, 350);
-	setHeight();
+		setHeight();
 }
 // set last monday date in the input date;
 const setLastMonday = () => {

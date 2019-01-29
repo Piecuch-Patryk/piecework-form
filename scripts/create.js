@@ -218,7 +218,6 @@ TableObj.prototype.createTable = function(index){
 	div.classList.add('single-day');
 	div.appendChild(this.table);
 	if(index == 0) div.classList.add('active-day');
-	if(index == 0) div.style.display = 'block';
 	return div;
 }
 // Get current TableObj;
