@@ -355,6 +355,16 @@ footer p {
 .hidden {
 	display: none;
 }
+.visible {
+	display: block;
+}
+.confirmation {
+	text-align: center;
+	padding: 1rem 0;
+/*	color: rgba(0,0,10,.9);*/
+	color: rgba(25, 108, 0, 0.85);
+	letter-spacing: .08rem;
+}
 
 
 
