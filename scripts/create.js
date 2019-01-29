@@ -196,7 +196,8 @@ TableObj.prototype.createRow = function (){
 // title row;
 TableObj.prototype.titleRow = function(index){
 	const $row = $('<tr class="row">');
-	const $td = $('<td class="cell" colspan="100%">');
+	const colspan = getColumns().length;
+	const $td = $('<td class="cell" colspan="' + colspan + '">');
 	const date = Datescalc.calcWeekDates();
 	$($td).html(getDays(index) + ' ' + date[index]);
 	$($row).addClass('hidden');
