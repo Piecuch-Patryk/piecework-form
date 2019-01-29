@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <?php
-// HTTPS;
-// require '../app_php/require/https.php';   <---- Does not work;
 session_start();
+// redirect if logged;
+if(isset($_SESSION['logged'])){
+	header('Location: ../private/');
+	exit;
+}
 ?>
 <html lang="en">
 <head>
@@ -19,7 +22,7 @@ session_start();
 			<h1>Piecework form sheet</h1>
 			<div class="form-row">
 				<input class="input" type="email" name="username" autofill="email" required placeholder="E-mail">
-				<label>E-mail<label>
+				<label>E-mail</label>
 			</div>
 			<div class="form-row">
 				<input class="input" type="password" name="password" autofill="password" required placeholder="Password">
