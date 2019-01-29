@@ -80,7 +80,7 @@ class Job {
 				if(el.checked){
 					let price = el.price * el.qty / 100;
 					price = price.toFixed(2);
-					const span = $('<span>').addClass('sm-cell-el').html(`${el.size}': x${el.qty} = £${price}`);
+					const span = $('<span>').addClass('sm-cell-el').html(`shelving ${el.size}': x${el.qty} = £${price}`);
 					arr.push(span);
 				}
 			});
