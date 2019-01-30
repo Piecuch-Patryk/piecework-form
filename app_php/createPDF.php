@@ -39,21 +39,29 @@ $htmlContent = '
 			}
 			.table {
 				width: 100%;
-				border: .1rem solid rgba(0,0,10,.9);
+				border: .1rem solid rgba(0,0,10,.5);
 				border-collapse: collapse;
 			}
 			.column {
-				width: 14.28%;
+				width: 10%;
+			}
+			.column,
+			.row-job .cell,
+			.row .cell:last-child {
+				text-align: center;
 			}
 			.column,
 			.cell {
-				border: .1rem solid rgba(0,0,10,.9);
-				padding: .5rem;
+				border: .1rem solid rgba(0,0,10,.5);
+				padding: .1rem;
+			}
+			.cell label {
+				display: inline-block;
+				white-space: nowrap;
 			}
 			.cell .sm-cell-el {
 				display: block;
 				font-size: .8rem;
-				margin: .1rem;
 				white-space: nowrap;
 			}
 			.cell.cell-taller {
