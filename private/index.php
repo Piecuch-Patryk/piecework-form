@@ -268,7 +268,6 @@ if(!$_SESSION['logged']){
 
 		<div class="flex-wrap items-around">
 			<button id="generate-email" class="submit-btn" type="button">Send e-mail</button>
-			<button id="save-pdf" class="submit-btn" type="button">Save PDF</button>
 		</div>
 		<footer>
 			<p>Job sheet form. Coopyrights &copy; 2019</p>
