@@ -266,7 +266,7 @@ if(!$_SESSION['logged']){
 			</section>
 		</main>
 
-		<div class="flex-wrap items-around">
+		<div class="flex-wrap">
 			<button id="generate-email" class="submit-btn" type="button">Send e-mail</button>
 		</div>
 		<footer>
