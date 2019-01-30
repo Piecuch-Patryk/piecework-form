@@ -5,6 +5,12 @@ $weekDates = explode(',', $_POST['date']);		// current week dates;
 $filename = $fullname . ' ' . $weekDates[0];		// PDF file name;
 $pdfPath = '../PDFs/' . $filename . '.pdf';
 $PDFcontent = $_POST['content'];
+
+/*
+echo $PDFcontent;
+exit;
+*/
+
 $htmlContent = '
 <html>
 	<head>
@@ -33,8 +39,6 @@ $htmlContent = '
 			}
 			.single-day {
 				page-break-inside: avoid;
-			}
-			.single-day {
 				margin-bottom: 2rem;
 			}
 			.table {
@@ -60,6 +64,9 @@ $htmlContent = '
 			.cell .sm-cell-el {
 				display: block;
 				font-size: .8rem;
+				white-space: nowrap;
+			}
+			.cell .sm-wrap {
 				white-space: nowrap;
 			}
 			.cell.cell-taller {
