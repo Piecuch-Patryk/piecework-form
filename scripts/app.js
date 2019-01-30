@@ -56,13 +56,11 @@ document.addEventListener('DOMContentLoaded', () => {
 		$('.hidden-wrap').fadeOut(500);
 		$(this).css('display', 'none');
 	});
-	
 	$('.hidden-wrap').find('input[type="number"]').on('change', function(){
 		let price = $(this).val() * $(this).attr('data-price') / 100;
 		price = price.toFixed(2);
 		setPrice(`£${price}`, $(this).parent());
 	});
-	
 	// Add chosen shelves to jobSheet obj;
 	$('#add-shelves').on('click', function(){
 		$('.hidden-wrap').find('input[type="number"]').each((i, el) => {
@@ -104,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		$('#tables-container').append($(el.createTable(i)));
 	});
 	// Submit job sheet;
-	$('#submit-job').on('click', function(){
+	$('#submit-job').on('click', function(){		
 		if($('#invoice').val().length > 4){
 			const $currentTable = currentTableObj();
 			
@@ -180,8 +178,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	// create email document;
 	$('#generate-email').on('click', function(){
 		const $div = $('<div class="single-day">');
+		const $inputs = $('.extra-hours');
 		$($div).append(weekTotal.weekTable());
 		$('#tables-container').append($div);
+		// find input-number and replace with text only;
+		$($inputs).each((i, el) => {
+			const val = $(el).val();
+			$(el).replaceWith(' ' + val + ' ');
+		});
 		createPDF();
 	});
 	
