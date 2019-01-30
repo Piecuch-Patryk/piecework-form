@@ -42,9 +42,6 @@ $htmlContent = '
 				border: .1rem solid rgba(0,0,10,.5);
 				border-collapse: collapse;
 			}
-			.column {
-				width: 10%;
-			}
 			.column,
 			.row-job .cell,
 			.row .cell:last-child {
@@ -53,11 +50,12 @@ $htmlContent = '
 			.column,
 			.cell {
 				border: .1rem solid rgba(0,0,10,.5);
-				padding: .1rem;
+				padding: .1rem .4rem;
 			}
-			.cell label {
-				display: inline-block;
-				white-space: nowrap;
+			.row.hidden .cell {
+				text-align: left;
+				padding: .1rem .5rem;
+				font-size: 1.1rem;
 			}
 			.cell .sm-cell-el {
 				display: block;
