@@ -171,8 +171,8 @@ TableObj.prototype.createRow = function (){
 			td1.innerHTML = 'Extra hours worked at hourly rate (C)';
 			td1.setAttribute('colspan', 3);
 			tr.appendChild(td1);
-			$(td2).append($('<label>Hours <input class="sm-input extra-hours" type="number" value="0" min="0" max="12" data-price="1232"></label>'));
-			$(td2).append($('<label>Minutes<input class="sm-input extra-hours" type="number" value="0" min="0" max="30" step="30"></label>'));
+			$(td2).append($('<span class="sm-wrap"><label><input class="sm-input extra-hours" type="number" value="0" min="0" max="12" data-price="1232">Hours</label></span>'));
+			$(td2).append($('<span class="sm-wrap"><label><input class="sm-input extra-hours" type="number" value="0" min="0" max="30" step="30">Minutes</label></span>'));
 			td2.setAttribute('colspan', 3);
 			tr.appendChild(td2);
 			td.innerHTML = '£0.00';
