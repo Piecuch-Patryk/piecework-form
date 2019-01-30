@@ -250,10 +250,25 @@ if(!$_SESSION['logged']){
 			<section id="tables-container" class="tables-wrap"></section>
 			
 			</section>
+			<section class="section-wrap ">
+				<div class="flex-wrap center-box">
+					<label>Amount of hours in current week <input type="number" class="sm-input" value="0" max="50" min="0"></label>
+				</div>
+				<div class="flex-wrap center-box">
+					<p>Average hourly rate at current week: <span id="average-rate">£0.00</span></p>
+				</div>
+				<div class="flex-wrap center-box">
+					<p>Week total gross: <span id="week-total-gross">£0.00</span></p>
+				</div>
+				<div class="flex-wrap center-box">
+					<p>Week total net: <span id="week-total-nett">£0.00</span></p>
+				</div>
+			</section>
 		</main>
 
-		<div class="flex-wrap center-box">
-			<button id="generate-email" class="submit-btn" type="button">generate</button>
+		<div class="flex-wrap items-around">
+			<button id="generate-email" class="submit-btn" type="button">Send e-mail</button>
+			<button id="save-pdf" class="submit-btn" type="button">Save PDF</button>
 		</div>
 		<footer>
 			<p>Job sheet form. Coopyrights &copy; 2019</p>
