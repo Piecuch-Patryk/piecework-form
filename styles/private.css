@@ -336,6 +336,12 @@ input[type="date"],
 	flex-wrap: wrap;
 	border: none;
 }
+.sm-wrap:first-child {
+	margin-right: 1rem;
+}
+.extra-hours {
+	margin-right: .3rem;
+}
 footer p {
 	font-size: 1rem;
 	text-align: center;
