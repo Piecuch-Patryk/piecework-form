@@ -29,8 +29,10 @@ const getSizes = function(el){
 }
 // get chosen base price;
 function getBasePrice(){
-    const size = $('#sizes').children(':selected').html();
-    const type = $(this).children(':selected').html();
+	// 
+	
+	const size = $('#sizes').children(':selected').html();
+	const type = $(this).children(':selected').html();
 
 	if((size != $(this).children().first().html()) && (type != '--please select--')){
 		$.ajax({
@@ -68,7 +70,7 @@ function getBasePrice(){
 function getGutterPrice(){
 	const size = $('#sizes').children(':selected').html().split('x');
 	const type = $(this).children(':selected').html();
-    const qty = $(this).children(':selected').attr('data-qty');
+	const qty = $(this).children(':selected').attr('data-qty');
 
 	if((size != $(this).children().first().html()) && (type != '--please select--')){
 		$.ajax({
@@ -98,16 +100,16 @@ function getGutterPrice(){
 }
 // Get chosen waterbutt price;
 function getWaterbuttPrice(){
-	const size = $('#sizes').children(':selected').html().split('x');
-	const type = $(this).children(':selected').html();
-    const qty = $(this).children(':selected').attr('data-qty');
-	
-	if((size != $(this).children().first().html()) && (type != '--please select--')){
+	const size = $('#sizes').children(':selected').text();
+	const qty = $(this).children(':selected').attr('data-qty');
+	const type = $(this).children(':selected').text();
+	// access only if any size chosen and waterbutt selected (one or two), not for '--please select--';
+	if((size != $('#sizes').children().first().html()) && (type != $(this).children().first().text())){
 		$.ajax({
 			type: 'GET',
-			url: "../app_php/getGuttering.php",
+			url: "../app_php/getWaterbutt.php",
 			data: {
-				gutter: size[0]
+				waterbutt: true
 			},
 			dataType: 'json',
 			success: result => {
