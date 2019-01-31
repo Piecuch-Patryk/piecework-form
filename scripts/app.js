@@ -10,8 +10,45 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Get available shelves from database;
 	getShelvesPrices();
 	$('#ranges').on('change', function(){
-		getSizes(this);
-		jobSheet.range = $(this).children(':selected').text();
+		// Other range choice opens the editable form; User can type data manually;
+		if($(this).children(':selected').text() == $(this).children().last().text()) {
+			$(this).addClass('hidden');
+			$(this).next().removeClass('hidden');
+			$('#sizes').addClass('hidden');
+			$('#sizes').next().removeClass('hidden');
+			$('#manual-size').on('blur', function(){
+				jobSheet.size = $(this).val();
+			});
+			jobSheet.priceA = 0;
+			// flag for manual typing;
+			jobSheet.manually = true;
+			$('#product-price').removeAttr('readonly').val('£0.00');
+			$('#product-price').on('blur', function(){
+				let price = $(this).val();
+				price = price.split('£');
+				price = price[1];
+				price = Number(price);
+				jobSheet.priceA = price;
+				setTotal();
+			});
+			// click to reverse it back;
+			$('#reverse-options').on('click', () => {
+				// flag for manual typing;
+				jobSheet.manually = false;
+				$(this).removeClass('hidden');
+				$(this).next().addClass('hidden');
+				$('#sizes').removeClass('hidden');
+				$('#sizes').next().addClass('hidden');
+				$('#sizes').html('').append($('<option>').text('--please select--'));
+				$('#product-price').attr('readonly', 'true');
+				getRanges();
+			});
+			setTotal();
+		}
+		else {
+			getSizes(this);
+			jobSheet.range = $(this).children(':selected').text();
+		}
 	});
 	$('#sizes').on('change', function(){
 		const price = $(this).children(':selected').attr('data-price') / 100;
@@ -114,10 +151,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			// create new row in active table;
 			$('.active-day').find('tbody').prepend(jobSheet.prependRow());
 			
-			// count total price A+B;
+			// calculate total price A+B;
 			setTotalJobRows();
 			
-			// Delete current jobSheet references and create new one with default values;
+			// Delete current jobSheet references and create brand new one with default values;
 			delete jobSheet;
 			jobSheet = new Job();
 			

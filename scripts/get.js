@@ -29,11 +29,16 @@ const getSizes = function(el){
 }
 // get chosen base price;
 function getBasePrice(){
-	// 
-	
-	const size = $('#sizes').children(':selected').html();
+	let size;
 	const type = $(this).children(':selected').html();
-
+	// manual typing only;
+	if(jobSheet.manually){
+		size = $('#sizes').next().val();
+		size = size.split('x');
+		size = size[1] + 'x' + size[0];
+	}else {
+		size = $('#sizes').children(':selected').html();
+	}
 	if((size != $(this).children().first().html()) && (type != '--please select--')){
 		$.ajax({
 			type: 'GET',
@@ -68,16 +73,22 @@ function getBasePrice(){
 }
 // Get chosen guttering price;
 function getGutterPrice(){
-	const size = $('#sizes').children(':selected').html().split('x');
-	const type = $(this).children(':selected').html();
+	let size;
 	const qty = $(this).children(':selected').attr('data-qty');
-
+	const type = $(this).children(':selected').first().html();
+	if(jobSheet.manually){
+		size = $('#manual-size').val().split('x');
+		size = size[1];
+	}else {
+		size = $('#sizes').children(':selected').html().split('x');
+		size = size[0];
+	}
 	if((size != $(this).children().first().html()) && (type != '--please select--')){
 		$.ajax({
 			type: 'GET',
 			url: "../app_php/getGuttering.php",
 			data: {
-				gutter: size[0]
+				gutter: size
 			},
 			dataType: 'json',
 			success: result => {
