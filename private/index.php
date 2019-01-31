@@ -12,7 +12,7 @@ if(!$_SESSION['logged']){
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wages app v.5</title>
 	<!-- fontawesome -->
-	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 	<link rel="stylesheet" href="../styles/main.css">
 	<link rel="stylesheet" href="../styles/private.css">
 </head>
@@ -57,6 +57,10 @@ if(!$_SESSION['logged']){
 							<select id="ranges">
 								<option>--please select--</option>
 							</select>
+							<div class="box-wrap hidden">
+								<input class="sm-input manual-input" type="text" placeholder="manual typing">
+								<i id="reverse-options" class="fas fa-undo-alt"></i>
+							</div>
 						</div>
 						<!-- Size -->
 						<div class="box-row">
@@ -64,6 +68,7 @@ if(!$_SESSION['logged']){
 							<select id="sizes">
 								<option>--please select--</option>
 							</select>
+							<input id="manual-size" class="sm-input manual-input hidden" type="text" placeholder="manual typing">
 						</div>
 						<div class="box-row">
 							<input id="product-price" class="sm-input" type="text" readonly value="£0.00">
@@ -265,8 +270,8 @@ if(!$_SESSION['logged']){
 				</div>
 			</section>
 		</main>
-
-		<div class="flex-wrap">
+		<!-- Send email btn-->
+		<div class="flex-wrap center-box">
 			<button id="generate-email" class="submit-btn" type="button">Send e-mail</button>
 		</div>
 		<footer>
