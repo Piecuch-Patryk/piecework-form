@@ -1,22 +1,24 @@
 // New job sheet object;
 class Job {
 	constructor(){		
-		this.invoice = '10293';
-		this.range = 'popular';
-		this.size = '6x4';
+		this.invoice = '';
+		this.range = '';
+		this.size = '';
 		this.priceA = 0;
 		this.row = $('<th>');
 		this.cell = $('<td>');
 		this.option = $('<option>').attr('data-price', 0);
 		this.optionDefault = $(this.option).clone().html('--please select--');
+		this.availableRanges = [];
 		this.extras = {
+			checked: false,
 			base: {
 				name: '',
 				type: '',
 				checked: false,
 				price: 0
 			},
-			guttering: {
+			gutter: {
 				qty: 0,
 				price: 0,
 				checked: false
@@ -31,7 +33,6 @@ class Job {
 					this.size = '';
 					this.qty = 0;
 					this.price = 0;
-					this.checked = false;
 					this.checked = false;
 				},
 				calcShelvesPrice(){
@@ -52,7 +53,6 @@ class Job {
 				return parseFloat(this.base.price + this.guttering.price + this.waterbutt.price + this.calcShelvesPrice());
 			}
 		};
-		this.availableRanges = [];
 	}
 	// job total price;
 	calcJobTotal(){
@@ -119,10 +119,10 @@ class Job {
 		});
 	}
 	// get available sizes for current range;
-	getSizes(){
-		const range = $(this).children(':selected').text();
+	getSizes(obj){		//obj = this;
+		const range = $(obj).children(':selected').text();
 		// range selected;
-		if(range != $(this).children().first().html()){
+		if(range != $(obj).children().first().html()){
 			$.ajax({
 					type: 'GET',
 					url: "../app_php/getSizes.php",
@@ -136,6 +136,22 @@ class Job {
 			TempJobsheet.setProductPrice();
 		}
 	}
+	// Get extras price;
+	getExtras(name, dataIndex){
+		console.log(name, dataIndex);
+		/*$.ajax({
+			type: 'GET',
+			url: "../../app_php/getBasePrice.php",
+			data: {
+				size: this.size,
+				base: this.extras.base.type
+			},
+			dataType: 'json',
+			success: result => {
+				console.log(result);
+			}
+		});*/
+	}
 	// set product price when size has been chosen;
 	setProductPrice(priceNum){
 		const $container = $('#product-price');
@@ -145,8 +161,16 @@ class Job {
 		else price = `£${parseFloat(priceNum / 100).toFixed(2)}`;
 		$($container).val(price);
 	}
-	// reset inputs;	id=ranges/sizes;
-	resetOptions(id){
-		$(`#${id}`).html($(this.optionDefault));
+	// reset selected options to default;
+	resetOptions(name){
+		if(name != 'sizes') {
+			$(`${name}`).prop('selectedIndex', 0).change();
+			this.resetPrice(name);
+		}
+		else $(`#${name}`).html($(this.optionDefault))	
+	}
+	// reset extras price;
+	resetPrice(name){
+		this.extras[name].price = 0;
 	}
 }

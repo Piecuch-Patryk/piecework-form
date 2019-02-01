@@ -16,3 +16,9 @@ function setOptions(data, id){
 		$($container).append($option);
 	});
 }
+// set table height to days-wrap;
+function setHeight(){
+		const $activeDay = $('.active-day').closest('.tables-wrap');
+		const height = $($activeDay).find('.active-day').find('table').css('height');
+		$($activeDay).css('height', height);
+	}

@@ -88,10 +88,10 @@ class TableObj {
 	// title row;
 	titleRow(index){
 		const $row = $('<tr class="row">');
-		const colspan = getColumns().length;
+		const colspan = columns().length;
 		const $td = $('<td class="cell" colspan="' + colspan + '">');
-		const date = Datescalc.calcWeekDates();
-		$($td).html(getDays(index) + ' ' + date[index]);
+		const date = DatesObj.calcWeekAhead();
+		$($td).html(weekDays(index) + ' ' + date[index]);
 		$($row).addClass('hidden');
 		$($row).append($td);
 		return $($row)[0];
@@ -99,8 +99,9 @@ class TableObj {
 	// create table;
 	createTable(index){
 		const div = this.createTableEl('div');
+		this.index = index;
 		this.thead.appendChild(this.titleRow(index));
-		this.thead.appendChild(this.createColumns(getColumns()));
+		this.thead.appendChild(this.createColumns(columns()));
 		this.table.appendChild(this.thead);
 		this.createRow().forEach((el, i) => {		
 			this.tbody.appendChild(el);
