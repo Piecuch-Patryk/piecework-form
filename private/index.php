@@ -20,7 +20,7 @@ if(!$_SESSION['logged']){
 	<div class="bg-cover">
 		<!-- Header -->
 		<header class="private-header">
-			<label>Select the beginning date of the week<input class="lg-input" type="date" required="required"></label>
+			<label>Select the beginning date of the week<input id="week-date" class="lg-input" type="date" required="required"></label>
 			<!-- name&surname -->
 			<div>
 				<p id="username"><?php
@@ -45,17 +45,17 @@ if(!$_SESSION['logged']){
 		<main>
 			<!-- Job sheet form -->
 			<section class="section-wrap">
-				<form>
+				<form id="jobsheet">
 					<div class="flex-wrap">
 						<!-- Invoice number -->
 						<div class="box-row">
-							<label>Invoice number<input id="invoice" class="sm-input invoice-input" type="number" min="0" placeholder="00000"></label>
+							<label>Invoice number<input id="invoice" class="sm-input invoice-input" type="text" min="0" placeholder="00000"></label>
 						</div>
 						<!-- Range -->
 						<div class="box-row">
 							<label for="ranges">Range:</label>
 							<select id="ranges">
-								<option>--please select--</option>
+								<option data-price="0">--please select--</option>
 							</select>
 							<div class="box-wrap hidden">
 								<input class="sm-input manual-input" type="text" placeholder="manual typing">
@@ -66,10 +66,11 @@ if(!$_SESSION['logged']){
 						<div class="box-row">
 							<label for="sizes">Size:</label>
 							<select id="sizes">
-								<option>--please select--</option>
+								<option data-price="0">--please select--</option>
 							</select>
 							<input id="manual-size" class="sm-input manual-input hidden" type="text" placeholder="manual typing">
 						</div>
+						<!-- Product price -->
 						<div class="box-row">
 							<input id="product-price" class="sm-input" type="text" readonly value="£0.00">
 						</div>
@@ -80,9 +81,9 @@ if(!$_SESSION['logged']){
 							<div class="box-row">
 								<label for="base">Base</label>
 								<select id="base">
-									<option>--please select--</option>
-									<option>bearers</option>
-									<option>easy-base</option>
+									<option data-index="0">--please select--</option>
+									<option data-index="1">bearers</option>
+									<option data-index="2">easy-base</option>
 								</select>
 							</div>
 							<div class="box-row">
@@ -94,9 +95,9 @@ if(!$_SESSION['logged']){
 							<div class="box-row">
 								<label for="gutter">Guttering</label>
 								<select id="gutter">
-									<option>--please select--</option>
-									<option data-qty="1">one side</option>
-									<option data-qty="2">two sides</option>
+									<option data-index="0">--please select--</option>
+									<option data-index="1">one side</option>
+									<option data-index="2">two sides</option>
 								</select>
 							</div>
 							<div class="box-row">
@@ -108,9 +109,9 @@ if(!$_SESSION['logged']){
 							<div class="box-row">
 								<label for="waterbutt">Waterbutt</label>
 								<select id="waterbutt">
-									<option>--please select--</option>
-									<option data-qty="1">one</option>
-									<option data-qty="2">two</option>
+									<option data-index="0">--please select--</option>
+									<option data-index="1">one</option>
+									<option data-index="2">two</option>
 								</select>
 							</div>
 							<div class="box-row">
@@ -120,88 +121,92 @@ if(!$_SESSION['logged']){
 						<!--pop-up shelving section-->
 						<div class="sm-box">
 							<div class="box-row">
-								<button class="btn-shelv" type="button">Shelvings</button>
+								<!-- btn -->
+								<button id="shelves-btn" class="btn-shelv" type="button">Shelvings</button>
 								<div class="hidden-wrap">
-									<button class="close-btn" type="button">X</button>
-									<div class="sm-box">
-										<div>
-											<label>5' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+									<div>
+										<button class="close-btn" type="button">X</button>
+										<div class="sm-box">
+											<div>
+												<label>5' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+											</div>
+											<div>
+												<input type="text" readonly class="sm-input" value="£0.00">
+											</div>
 										</div>
-										<div>
-											<input type="text" readonly class="sm-input" value="£0.00">
+										<div class="sm-box">
+											<div>
+												<label>6' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+											</div>
+											<div>
+												<input type="text" readonly class="sm-input" value="£0.00">
+											</div>
 										</div>
-									</div>
-									<div class="sm-box">
-										<div>
-											<label>6' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+										<div class="sm-box">
+											<div>
+												<label>7' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+											</div>
+											<div>
+												<input type="text" readonly class="sm-input" value="£0.00">
+											</div>
 										</div>
-										<div>
-											<input type="text" readonly class="sm-input" value="£0.00">
+										<div class="sm-box">
+											<div>
+												<label>8' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+											</div>
+											<div>
+												<input type="text" readonly class="sm-input" value="£0.00">
+											</div>
 										</div>
-									</div>
-									<div class="sm-box">
-										<div>
-											<label>7' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+										<div class="sm-box">
+											<div>
+												<label>9' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+											</div>
+											<div>
+												<input type="text" readonly class="sm-input" value="£0.00">
+											</div>
 										</div>
-										<div>
-											<input type="text" readonly class="sm-input" value="£0.00">
+										<div class="sm-box">
+											<div>
+												<label>10' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+											</div>
+											<div>
+												<input type="text" readonly class="sm-input" value="£0.00">
+											</div>
 										</div>
-									</div>
-									<div class="sm-box">
-										<div>
-											<label>8' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+										<div class="sm-box">
+											<div>
+												<label>12' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+											</div>
+											<div>
+												<input type="text" readonly class="sm-input" value="£0.00">
+											</div>
 										</div>
-										<div>
-											<input type="text" readonly class="sm-input" value="£0.00">
+										<div class="sm-box">
+											<div>
+												<label>14' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+											</div>
+											<div>
+												<input type="text" readonly class="sm-input" value="£0.00">
+											</div>
 										</div>
-									</div>
-									<div class="sm-box">
-										<div>
-											<label>9' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+										<div class="sm-box">
+											<div>
+												<label>16' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
+											</div>
+											<div>
+												<input type="text" readonly class="sm-input" value="£0.00">
+											</div>
 										</div>
-										<div>
-											<input type="text" readonly class="sm-input" value="£0.00">
+										<div class="sm-box">
+											<button id="add-shelves" class="submit-btn" type="button">Update</button>
 										</div>
-									</div>
-									<div class="sm-box">
-										<div>
-											<label>10' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
-										</div>
-										<div>
-											<input type="text" readonly class="sm-input" value="£0.00">
-										</div>
-									</div>
-									<div class="sm-box">
-										<div>
-											<label>12' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
-										</div>
-										<div>
-											<input type="text" readonly class="sm-input" value="£0.00">
-										</div>
-									</div>
-									<div class="sm-box">
-										<div>
-											<label>14' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
-										</div>
-										<div>
-											<input type="text" readonly class="sm-input" value="£0.00">
-										</div>
-									</div>
-									<div class="sm-box">
-										<div>
-											<label>16' x <input class="sm-input" type="number" min="0" max="10" value="0"></label>
-										</div>
-										<div>
-											<input type="text" readonly class="sm-input" value="£0.00">
-										</div>
-									</div>
-									<div class="sm-box">
-										<button id="add-shelves" class="submit-btn" type="button">Update</button>
 									</div>
 								</div>
 							</div>
+							<!-- shelves total -->
 							<div class="box-row">
-								<input class="sm-input"  readonly type="text" value="&pound;0.00">
+								<input id="shelves-total" class="sm-input"  readonly type="text" value="&pound;0.00">
 							</div>
 						</div>
 						<!-- Total for extras -->
@@ -214,11 +219,13 @@ if(!$_SESSION['logged']){
 							</div>
 						</div>
 					</div>
+					<!-- Job's total -->
 					<div class="flex-wrap center-box">
 						<div class="box-row">
-							<label>Total for this job:<input id="total" class="sm-input" type="text" value="£0.00" readonly></label>
+							<label>Total for the job:<input id="total" class="sm-input" type="text" value="£0.00" readonly></label>
 						</div>
 					</div>
+					<!-- Add job btn -->
 					<div class="flex-wrap">
 						<div class="box-row center-box">
 							<button id="submit-job" class="submit-btn" type="button">Add job</button>
@@ -294,10 +301,15 @@ if(!$_SESSION['logged']){
 	
 	<!-- jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="../scripts/create.js"></script>
-	<script src="../scripts/get.js"></script>
-	<script src="../scripts/calc.js"></script>
-	<script src="../scripts/set.js"></script>
+	
+	<!-- Modules -->
+	<script src="../scripts/modules/data.js"></script>
+	<script src="../scripts/modules/Dates.js"></script>
+	<script src="../scripts/modules/Jobsheet.js"></script>
+	<script src="../scripts/modules/Tables.js"></script>
+	<script src="../scripts/modules/Weektotal.js"></script>
+	<script src="../scripts/modules/set.js"></script>
+	<!-- App -->
 	<script src="../scripts/app.js"></script>
 	
 	
