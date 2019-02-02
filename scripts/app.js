@@ -1,229 +1,158 @@
-let jobSheet = new Job();
-const weekTotal = new WeekTotal();		// hidden table;
-const tables = [];
-let Datescalc;
+const DatesObj = new Dates();
+let TempJobsheet = new Job();
+const Tables = [];
 
-document.addEventListener('DOMContentLoaded', () => {
+
+
+// DOM loaded;
+document.addEventListener('DOMContentLoaded', function(){
+	// set the date of last Monday;
+	DatesObj.setLastMonday();
 	
-	// Get available ranges from database and append to <Sselect>;
-	getRanges();
-	// Get available shelves from database;
-	getShelvesPrices();
+	/*
+	
+	Job sheet form
+	
+	*/
+	/**** Invoice*/
+	$('#invoice').on('input focus', function(){
+		const length = $(this).val().length;
+		$(this).css('background-color', 'rgba(200, 0, 0, .5)');
+		TempJobsheet.invoice = $(this).val();
+		// toggle bgc while typing;
+		if(length >= 3 && length < 5) $(this).css('background-color', 'rgba(255, 200, 0, 0.5)');	// yellow;
+		else if(length < 3) $(this).css('background-color', 'rgba(200, 0, 0, .5)');	// red;
+		else $(this).css('background-color', 'transparent');	// none;
+	});
+	/**** Range/Size*/
+	// available ranges; 
+	TempJobsheet.getRanges();
+	// range changed;
 	$('#ranges').on('change', function(){
-		// Other range choice opens the editable form; User can type data manually;
-		if($(this).children(':selected').text() == $(this).children().last().text()) {
-			$(this).addClass('hidden');
-			$(this).next().removeClass('hidden');
-			$('#sizes').addClass('hidden');
-			$('#sizes').next().removeClass('hidden');
-			$('#manual-size').on('blur', function(){
-				jobSheet.size = $(this).val();
-			});
-			jobSheet.priceA = 0;
-			// flag for manual typing;
-			jobSheet.manually = true;
-			$('#product-price').removeAttr('readonly').val('£0.00');
-			$('#product-price').on('blur', function(){
-				let price = $(this).val();
-				price = price.split('£');
-				price = price[1];
-				price = Number(price);
-				jobSheet.priceA = price;
-				setTotal();
-			});
-			// click to reverse it back;
-			$('#reverse-options').on('click', () => {
-				// flag for manual typing;
-				jobSheet.manually = false;
-				$(this).removeClass('hidden');
-				$(this).next().addClass('hidden');
-				$('#sizes').removeClass('hidden');
-				$('#sizes').next().addClass('hidden');
-				$('#sizes').html('').append($('<option>').text('--please select--'));
-				$('#product-price').attr('readonly', 'true');
-				getRanges();
-			});
-			setTotal();
+		if($(this).children(':selected').text() != $(this).children().first().text()) {
+			TempJobsheet.range = $(this).children(':selected').text();
 		}
-		else {
-			getSizes(this);
-			jobSheet.range = $(this).children(':selected').text();
-		}
+		TempJobsheet.priceA = 0;
+		TempJobsheet.getSizes(this);
+		TempJobsheet.extras.shelvings.resetDefalut();
+		TempJobsheet.extras.setExtrasTotal()
+		TempJobsheet.setJobTotal();
 	});
+	// size changed;
 	$('#sizes').on('change', function(){
-		const price = $(this).children(':selected').attr('data-price') / 100;
-		jobSheet.size = $(this).children(':selected').text();
-		jobSheet.priceA = parseFloat(price.toFixed(2));
-		setPrice(`£${price.toFixed(2)}`, this);
-		setTotal();
+		const $selected = $(this).children(':selected');
+		if($($selected).text() == $(this).children().first().text()){
+			// '--please select--' selected;
+			TempJobsheet.size = '';
+			TempJobsheet.priceA = 0;
+			TempJobsheet.setProductPrice();
+		}else {
+			// size selected;
+			const priceNum = parseFloat($($selected).attr('data-price'));
+			TempJobsheet.size = $($selected).text();
+			TempJobsheet.setProductPrice(priceNum);
+		}
+		TempJobsheet.extras.shelvings.resetDefalut();
+		TempJobsheet.extras.setExtrasTotal()
+		TempJobsheet.resetOptions();
+		TempJobsheet.setJobTotal();
+	});
+	/**** Extras*/
+	// select extras;
+	$('.sm-box select').each((i, el) => {
+		$(el).on('mousedown', function(e){
+			if(TempJobsheet.size == ''){
+				// prevent open select element if no size chosen;
+				e.preventDefault();
+			}else {
+				// select changed;
+				$(this).on('change', function(e){
+					e.stopImmediatePropagation();
+					const dataIndex = $(this).children(':selected').attr('data-index');
+					const name = $(this).attr('id');
+					if(dataIndex == 0){
+						// reset extras when option has been changed to '--please select--';
+						TempJobsheet.resetSpecificOption(name);
+						TempJobsheet.extras.checked = false;
+						TempJobsheet.extras[name].checked = false;
+						return;
+					}
+					TempJobsheet.extras.checked = true;
+					TempJobsheet.extras[name].checked = true;
+					// get price for selected extras;
+					TempJobsheet.getExtras(name, dataIndex);
+				});
+			}
+		});
 	});
 	
-	// Get selected base price;
-	$('#base').on('change', getBasePrice);
-	// Get selected gutter price;
-	$('#gutter').on('change', getGutterPrice);
-	// Get selected waterbutt price;
-	$('#waterbutt').on('change', getWaterbuttPrice);
-	
-	// *** Shelving wrap animation ***
-	$('.btn-shelv').on('click', function(){
-		// scroll disabled;
+	/**** Shelves*/
+	// get and set prices;
+	TempJobsheet.extras.shelvings.getShelvesData();
+	// toggle display;
+	$('#shelves-btn').on('click', () => {
+		TempJobsheet.extras.shelvings.toggleShelvesSestion();
+		// window scroll disabled;
 		$(window).on('scroll touchmove mousewheel', function(e){
 			e.preventDefault();
 			e.stopPropagation();
 		});
-		$('.very-top-cover').css('display', 'block');
-		$('.hidden-wrap').css({
-			opacity: 0,
-			display: 'flex'
+		$('.close-btn').on('click', () => {
+			// window scroll enabled;
+			$(window).off('scroll touchmove mousewheel');
+			TempJobsheet.extras.shelvings.toggleShelvesSestion();
 		});
-		$('.hidden-wrap').animate({
-			opacity: 1
-		}, 500);
+		$('#add-shelves').on('click', TempJobsheet.extras.shelvings.toggleShelvesSestion);
+		$('.very-top-cover').on('click', TempJobsheet.extras.shelvings.toggleShelvesSestion);
 	});
-	$('.close-btn').on('click', function(){
-		// scroll enabled;
-		$(window).off('scroll touchmove mousewheel');
-		$('.very-top-cover').css('display', 'none');
-		$(this).closest('.hidden-wrap').fadeOut(500);
+	// changed quantity;
+	$('.hidden-wrap input[type="number"]').on('input', function(){
+		TempJobsheet.extras.shelvings.setSingleshelvPrice(this);
 	});
-	$('.very-top-cover').on('click', function(){
-		// scroll enabled;
-		$(window).off('scroll touchmove mousewheel');
-		$('.hidden-wrap').fadeOut(500);
-		$(this).css('display', 'none');
-	});
-	$('.hidden-wrap').find('input[type="number"]').on('change', function(){
-		let price = $(this).val() * $(this).attr('data-price') / 100;
-		price = price.toFixed(2);
-		setPrice(`£${price}`, $(this).parent());
-	});
-	// Add chosen shelves to jobSheet obj;
+	// update jobsheet form;
 	$('#add-shelves').on('click', function(){
-		$('.hidden-wrap').find('input[type="number"]').each((i, el) => {
-			if($(el).val() > 0){
-				jobSheet.extras.shelvings.push({
-					size: $(el).parent().text().split('\'')[0],
-					qty: $(el).val(),
-					price: $(el).attr('data-price'),
-					checked: true
-				})
-			}
-		});
-		jobSheet.extras.calcShelvesPrice();
-		jobSheet.extras.checked = true;
-		setPrice(`£${jobSheet.extras.calcShelvesPrice()}`, $(this).closest('.hidden-wrap'));
-		setExtrasTotal();		
-		// scroll enabled;
+		$(TempJobsheet.extras.shelvings.updateShelves()).each((i, el) => TempJobsheet.extras.shelvings.shelves.push(el));
+		// window scroll enabled;
 		$(window).off('scroll touchmove mousewheel');
-		// hide shelves section;
-		$('.very-top-cover').css('display', 'none');
-		$('.hidden-wrap').fadeOut(500);
+		TempJobsheet.extras.shelvings.setShelvesPrices();
+		TempJobsheet.extras.setExtrasTotal();
+		TempJobsheet.setJobTotal();
 	});
 	
-	// set last Mondays date in input[type="date"];
-	setLastMonday(new Date());
-	// current week dates object;
-	Datescalc = new DatesCalc();
-	
-	// Create table objects Mon-Fri;
-	const days = getDays();
-	$(days).each((i, el) => {
-		const newTable = new TableObj();
-		newTable.index = i; 
-		tables.push(newTable);
-	});
-	
-	// Apend every table object to DOM;
-	$(tables).each((i, el) => {
-		$('#tables-container').append($(el.createTable(i)));
-	});
-	// Submit job sheet;
-	$('#submit-job').on('click', function(){		
-		if($('#invoice').val().length > 4){
-			const $currentTable = currentTableObj();
-			
-			// add jobsheet to current TableObj;
-			$currentTable.rows.push(jobSheet);
-			
-			jobSheet.invoice = $('#invoice').val();			
-			
-			// create new row in active table;
-			$('.active-day').find('tbody').prepend(jobSheet.prependRow());
-			
-			// calculate total price A+B;
-			setTotalJobRows();
-			
-			// Delete current jobSheet references and create brand new one with default values;
-			delete jobSheet;
-			jobSheet = new Job();
-			
+	/**** Submit Job*/
+	$('#submit-job').on('click', function(){
+		// only if form was completed;
+		if((TempJobsheet.size != '') && ($('#invoice').val().length > 3)){
+			$('.active-day').find('tbody').prepend(TempJobsheet.prependRow());
 			setHeight();
-			
-			// RESET job-sheet form;
-			$('#invoice').val('');
-			$('#sizes').html('').append($('<option>').html('--please select--'));
-			// reset price fields;
-			$('.flex-wrap').find('input[type="text"]').each((i, el) => {
-				$(el).val(`£0.00`);
-			});
-			// reset options;
-			$('.flex-wrap').find(':selected').each((i, el) => {
-				$(el).prop('selected', false);
-			});
-		}else {
-			// form not completed;
-			
-			// *******************
+			TempJobsheet.resetDOMelements();
+			TempJobsheet = new Job();
+			// reset invoice bgc;
+			$('#invoice').css('background-color', 'transparent');
 		}
 	});
+	// End;
+	/*
 	
-
-	// Extra hours at hourly rate;
-	$('.extra-hours').on('change', function(){
-		setExtraHoursPrice(this);
+	Week - tables
+	
+	*/
+	// create tables and append to DOM;
+	$(weekDays()).each((i, el) => {
+		const NewObj = new TableObj();
+		Tables.push(NewObj);
+		$('#tables-container').append(NewObj.createTable(i));
 	});
-
-	
-	// set dates in days nav;
-	Datescalc.setDates();
-	$('.private-header input[type="date"]').on('change', () => {
-		Datescalc.setDates();		
-	});
-	
-	
-	// set table height to days-wrap;
-	$(window).on('resize', setHeight);
+	// set table height to it's parent element;
 	setHeight();
-	
-	// show chosen day-table;
-	$('.day-nav li').on('click', setCurrentDay);
+	$(window).on('resize', setHeight);
 	
 	
-	// Get current TableObj;
-	const currentTableObj = function(){
-		const $active = $('.active-day').find('table').first();
-		let $el;
-		$(tables).each((i, el) => {
-			if($active[0] == el.table){
-				$el = $(el)[0];
-			}
-		});
-		return $el;
-	}
 	
-	// create email document;
-	$('#generate-email').on('click', function(){
-		const $div = $('<div class="single-day">');
-		const $inputs = $('.extra-hours');
-		$($div).append(weekTotal.weekTable());
-		$('#tables-container').append($div);
-		// find input-number and replace with text only;
-		$($inputs).each((i, el) => {
-			const val = $(el).val();
-			$(el).replaceWith(' ' + val + ' ');
-		});
-		createPDF();
-	});
+	// End
 	
-}, false);
+	
+	
+	
+	
+});
