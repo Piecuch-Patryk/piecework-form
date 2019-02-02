@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	Week - tables
 	
 	*/
-	// create tables and append to DOM;
+	/**** Create*/
 	$(weekDays()).each((i, el) => {
 		const NewObj = new TableObj();
 		Tables.push(NewObj);
@@ -147,6 +147,15 @@ document.addEventListener('DOMContentLoaded', function(){
 	setHeight();
 	$(window).on('resize', setHeight);
 	
+	/**** Navigation*/
+	$('.day-nav li').on('click', function(){
+		const $currentTable = $('.single-day')[$(this).index()];
+		$('.active-day').removeClass('active-day');
+		$($currentTable).addClass('active-day');
+		$('.active-nav').removeClass('active-nav');
+		$(this).addClass('active-nav');
+		console.log(Tables[$(this).index()]);
+	});
 	
 	
 	// End
