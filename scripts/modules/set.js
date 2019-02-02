@@ -16,6 +16,15 @@ function setOptions(data, id){
 		$($container).append($option);
 	});
 }
+// set price attribute to every shelv element;
+function setShelvesPrices(result){
+	const $inputs = $('.hidden-wrap').find('input[type="number"]');
+	$($inputs).each((i, el) => {
+		$(el).attr({
+			'data-price': result[i].price
+		});
+	});
+}
 // set table height to days-wrap;
 function setHeight(){
 		const $activeDay = $('.active-day').closest('.tables-wrap');
