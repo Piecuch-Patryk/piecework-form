@@ -31,18 +31,11 @@ if(!$_SESSION['logged']){
 				<a href="../app_php/logout.php" class="link-el">LogOut</a>
 			</div>
 		</header>
-		<!-- E-mail sent confirmation -->
-		<section class="confirmation 
-		<?php
-		if(isset($_SESSION['email_sent'])){
-			unset($_SESSION['email_sent']);
-			echo 'visible';
-		}else {
-			echo 'hidden';
-		}?>">
-			<h1>All done! E-mail has been sent.</h1>
-		</section>
 		<main>
+			<!-- Confirmation message -->
+			<div class="confirmation">
+				<h3>E-mail has been sent.</h3>
+			</div>
 			<!-- Job sheet form -->
 			<section class="section-wrap">
 				<form id="jobsheet">
@@ -262,18 +255,19 @@ if(!$_SESSION['logged']){
 			<section id="tables-container" class="tables-wrap"></section>
 			
 			</section>
+			<!-- Week summary -->
 			<section class="section-wrap ">
 				<div class="flex-wrap center-box">
-					<label>Amount of hours in current week <input type="number" class="sm-input" value="0" max="50" min="0"></label>
+					<label>Amount of hours in current week <input id="average-input" type="number" class="sm-input" value="40" max="50" min="0"></label>
 				</div>
 				<div class="flex-wrap center-box">
-					<p>Average hourly rate at current week: <span id="average-rate">£0.00</span></p>
+					<p>Average gross hourly rate at current week: <span id="average-rate">£0.00</span></p>
 				</div>
 				<div class="flex-wrap center-box">
 					<p>Week total gross: <span id="week-total-gross">£0.00</span></p>
 				</div>
 				<div class="flex-wrap center-box">
-					<p>Week total net: <span id="week-total-nett">£0.00</span></p>
+					<p>Week total net: <span id="week-total-net">£0.00</span></p>
 				</div>
 			</section>
 		</main>
@@ -288,7 +282,6 @@ if(!$_SESSION['logged']){
 		<div class="very-top-cover"></div>
 	<!-- End bg-cover -->
 	</div>
-	
 	<!-- Loading animation -->
 	<div id="loading-animation" class="loading-animation-wrap">
 		<h5 class="animation-title">Sending...</h5>
@@ -307,7 +300,9 @@ if(!$_SESSION['logged']){
 	<script src="../scripts/modules/Dates.js"></script>
 	<script src="../scripts/modules/Jobsheet.js"></script>
 	<script src="../scripts/modules/Tables.js"></script>
-	<script src="../scripts/modules/Weektotal.js"></script>
+	<script src="../scripts/modules/WeekTotal.js"></script>
+	<script src="../scripts/modules/SummaryWeek.js"></script>
+	<script src="../scripts/modules/HiddenForm.js"></script>
 	<script src="../scripts/modules/set.js"></script>
 	<!-- App -->
 	<script src="../scripts/app.js"></script>
