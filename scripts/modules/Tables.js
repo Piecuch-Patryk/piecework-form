@@ -4,6 +4,8 @@ class TableObj {
 		this.thead = $('<thead>')[0],
 		this.tbody = $('<tbody>')[0],
 		this.rows = [],
+		this.jobsSubtotal = 0;
+		this.extraHours = 0;
 		this.tableTotal = 0;
 	}
 	// create table elements;
@@ -117,16 +119,35 @@ class TableObj {
 	currentTableObj(){
 		return this;
 	}
+	// set subtotal A + B;
+	setSubtotalAB(){
+		$('.active-day tbody').find('.cell-subtotal').first().html(`£${this.jobsSubtotal.toFixed(2)}`);
+		this.setTotal();
+	}
+	// calculate extras hours total;
+	calcExtraHours(){
+		this.extraHours = 0;
+		const $inputs = $('.extra-hours');
+		const rate = $($inputs[0]).attr('data-price');
+		let val = 0;
+		val += Number($($inputs[0]).val());
+		if($($inputs[1]).val() > 0) val += 0.5;
+		val = val * Number(rate / 100);
+		this.extraHours = val.toFixed(2);
+		return this.extraHours;
+	}
+	// set extras hours total;
+	setExtraHours(){
+		$('.active-day .cell-subtotal').last().html(`£${this.calcExtraHours()}`);
+		this.setTotal();
+	}
 	// calculate table total price;
 	calcTotal(){
-		const price = [];
-		this.rows.forEach((el, i) => {
-			price.push(el.calcJobTotal());
-		});
-		return price.reduce((a, b) => a + b, 0);
+		const sum = Number(this.jobsSubtotal) + Number(this.extraHours);
+		return sum.toFixed(2);
 	}
 	// set total price in the price cell;
 	setTotal(){
-		
+		$('.active-day .table-total').html(`£${this.calcTotal()}`);
 	}
 }
