@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	Week - tables
 	
 	*/
-	
+  
 	/**** Create*/
 	$(weekDays()).each((i, el) => {
 		const NewObj = new TableObj();
