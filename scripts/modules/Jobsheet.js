@@ -149,24 +149,25 @@ class Job {
 		
 		// extras;
 		if(this.extras.checked || this.extras.shelvings.checked) {
+			const $div = $('<div>');
 			const $cell = $(this.cell).clone();
 			// base;
 			if(this.extras.base.checked){
-				$($cell)
+				$($div)
 					.append($('<span>')
 					.addClass('sm-cell-el')
 					.html(`${this.extras.base.type}: £${Number(this.extras.base.price / 100).toFixed(2)}`));				
 			}
 			// guttering;
 			if(this.extras.gutter.checked){
-				$($cell)
+				$($div)
 					.append($('<span>')
 					.addClass('sm-cell-el')
 					.html(`guttering x${this.extras.gutter.qty}: £${Number(this.extras.gutter.price / 100).toFixed(2)}`));				
 			}
 			// waterbutt;
 			if(this.extras.waterbutt.checked){
-				$($cell)
+				$($div)
 					.append($('<span>')
 					.addClass('sm-cell-el')
 					.html(`waterbutt x${this.extras.waterbutt.qty}: £${Number(this.extras.waterbutt.price / 100).toFixed(2)}`));				
@@ -183,9 +184,10 @@ class Job {
 				});
 			}
 			$(arr).each((i, el) => {
-				$(el).appendTo($cell);
+				$(el).appendTo($div);
 			});
-			$($cell).addClass('cell flex-cell');
+			$($div).addClass('flex-cell');
+			$($cell).addClass('cell').append($div);
 			$($cell).appendTo($newRow);
 		}else {
 			$(this.cell).clone().html('none').addClass('cell').appendTo($newRow);

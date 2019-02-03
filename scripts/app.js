@@ -1,14 +1,28 @@
 const DatesObj = new Dates();
 let TempJobsheet = new Job();
 const Tables = [];
-const WeekTotalTable = new WeekTotal();
+const WeekTotalTable = new SummaryWeek();
+let WholeWeekData = new WeekTotal();
+let HiddenForm;
 
 
 
 // DOM loaded;
 document.addEventListener('DOMContentLoaded', function(){
+	/*
+	
+	Date
+	
+	*/
 	// set the date of last Monday;
-	DatesObj.setLastMonday();	
+	DatesObj.setLastMonday();
+	DatesObj.calcWeekAhead();
+	DatesObj.setWeekDates();
+	/**** Input*/
+	$('#week-date').on('input change', function(){
+		DatesObj.calcWeekAhead();
+		DatesObj.setWeekDates();
+	});
 	
 	/*
 	
@@ -132,6 +146,10 @@ document.addEventListener('DOMContentLoaded', function(){
 			TempJobsheet = new Job();
 			// reset invoice bgc;
 			$('#invoice').css('background-color', 'transparent');
+			// set week-total; below tables;
+			WholeWeekData.setGross();
+			WholeWeekData.setNet();
+			WholeWeekData.setAverageRate();
 		}
 	});
 	/*
@@ -139,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	Week - tables
 	
 	*/
-  
+	
 	/**** Create*/
 	$(weekDays()).each((i, el) => {
 		const NewObj = new TableObj();
@@ -159,13 +177,44 @@ document.addEventListener('DOMContentLoaded', function(){
 		$($currentTable).addClass('active-day');
 		$('.active-nav').removeClass('active-nav');
 		$(this).addClass('active-nav');
-		console.log(Tables[$(this).index()]);
 	});
 	
 	/**** Extra hours - subtotal*/
-	$('.active-day .extra-hours').on('input', () => Tables[$('.active-day').index()].setExtraHours());	
+	$('#tables-container').on('mouseenter', function(e){
+		e.stopImmediatePropagation();
+		$('.active-day .extra-hours').on('input', function(ev){
+			ev.stopImmediatePropagation();
+			Tables[$('.active-day').index()].calcExtraHours();
+			Tables[$('.active-day').index()].setExtraHours();	
+		});
+	});
+	
+	/*
+	
+	Average hourly rate
+	
+	*/
+	
+	$('#average-input').on('input', function(){
+		WholeWeekData.hours = Number($(this).val());
+		WholeWeekData.setAverageRate();
+	});
 	
 	
+	/*
+	
+	PDF creator
+	
+	*/
+	
+	/**** Hidden form - submit*/
+	$('#generate-email').on('click', function(){
+		Tables[$('.active-day').index()].replaceInputs();
+		HiddenForm = new Form();
+		HiddenForm.getPdfData();
+		HiddenForm.submitForm();
+	});
+
 	
 	
 	

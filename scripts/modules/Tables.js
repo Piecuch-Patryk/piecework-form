@@ -61,7 +61,7 @@ class TableObj {
 				row.push(tr);
 			}
 			if(iter === 1){
-				td1.innerHTML = 'Extra hours worked at hourly rate (C)';
+				td1.innerHTML = 'Extra hours @ hourly rate (C)';
 				td1.setAttribute('colspan', 3);
 				tr.appendChild(td1);
 				$(td2).append($('<span class="sm-wrap"><label><input class="sm-input extra-hours" type="number" value="0" min="0" max="12" data-price="1232">Hours</label></span>'));
@@ -127,13 +127,13 @@ class TableObj {
 	// calculate extras hours total;
 	calcExtraHours(){
 		this.extraHours = 0;
-		const $inputs = $('.extra-hours');
+		const $inputs = $('.active-day .extra-hours');
 		const rate = $($inputs[0]).attr('data-price');
 		let val = 0;
 		val += Number($($inputs[0]).val());
 		if($($inputs[1]).val() > 0) val += 0.5;
 		val = val * Number(rate / 100);
-		this.extraHours = val.toFixed(2);
+		this.extraHours = Number(val).toFixed(2);
 		return this.extraHours;
 	}
 	// set extras hours total;
@@ -149,5 +149,9 @@ class TableObj {
 	// set total price in the price cell;
 	setTotal(){
 		$('.active-day .table-total').html(`£${this.calcTotal()}`);
+	}
+	// replace input[type=number] with it's value only - PDF purpose;
+	replaceInputs(){
+		$('.extra-hours').each((i, el) => $(el).replaceWith(' ' + $(el).val() + ' '));
 	}
 }

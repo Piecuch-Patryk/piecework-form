@@ -1,6 +1,5 @@
 class Dates {
 	constructor(){
-		this.date = new Date();
 		this.week = [];
 	}
 	// calculate the last Monday date;
@@ -13,14 +12,14 @@ class Dates {
 		return date;
 	}
 	setLastMonday(){
-		const dateField = document.getElementById('week-date');
-		dateField.value = this.lastMonday();
+		$('#week-date').val(this.lastMonday());
 	}
 	// calculate dates for week ahead;
 	calcWeekAhead(){
-		const date = new Date();
+		const userDate = $('#week-date').val();
+		this.week = [];
 		for(let i = 0; i < 5; i++){			
-			const result = new Date(date);
+			const result = new Date(userDate);
 			let day = '',
 				month = '',
 				year = '',
@@ -39,5 +38,17 @@ class Dates {
 			this.week.push(newDate);
 		}
 		return this.week;
+	}
+	// set current week's dates in day-nav;
+	setWeekDates(){
+		$('.day-nav').find('span').each((i, el) => $(el).html(this.week[i]));
+	}
+	// set current week's dates in hidden title row in every table;
+	setHiddenTitle(){
+		$('.single-day .row.hidden td').each((i, el) => {
+			
+			
+			
+		});
 	}
 }
