@@ -1,19 +1,21 @@
 const DatesObj = new Dates();
 let TempJobsheet = new Job();
 const Tables = [];
+const WeekTotalTable = new WeekTotal();
 
 
 
 // DOM loaded;
 document.addEventListener('DOMContentLoaded', function(){
 	// set the date of last Monday;
-	DatesObj.setLastMonday();
+	DatesObj.setLastMonday();	
 	
 	/*
 	
 	Job sheet form
 	
 	*/
+	
 	/**** Invoice*/
 	$('#invoice').on('input focus', function(){
 		const length = $(this).val().length;
@@ -60,10 +62,11 @@ document.addEventListener('DOMContentLoaded', function(){
 	/**** Extras*/
 	// select extras;
 	$('.sm-box select').each((i, el) => {
-		$(el).on('mousedown', function(e){
+		$(el).on('mousedown keydown', function(e){
+			// prevent open select element if no size chosen;
 			if(TempJobsheet.size == ''){
-				// prevent open select element if no size chosen;
-				e.preventDefault();
+				// allow TAB;
+				if(e.keyCode != 9) e.preventDefault();
 			}else {
 				// select changed;
 				$(this).on('change', function(e){
@@ -131,18 +134,20 @@ document.addEventListener('DOMContentLoaded', function(){
 			$('#invoice').css('background-color', 'transparent');
 		}
 	});
-	// End;
 	/*
 	
 	Week - tables
 	
 	*/
+  
 	/**** Create*/
 	$(weekDays()).each((i, el) => {
 		const NewObj = new TableObj();
 		Tables.push(NewObj);
 		$('#tables-container').append(NewObj.createTable(i));
 	});
+	// Append Week-total table to table-container;
+	$('#tables-container').append(WeekTotalTable.weekTable());
 	// set table height to it's parent element;
 	setHeight();
 	$(window).on('resize', setHeight);
@@ -157,8 +162,8 @@ document.addEventListener('DOMContentLoaded', function(){
 		console.log(Tables[$(this).index()]);
 	});
 	
-	
-	// End
+	/**** Extra hours - subtotal*/
+	$('.active-day .extra-hours').on('input', () => Tables[$('.active-day').index()].setExtraHours());	
 	
 	
 	

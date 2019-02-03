@@ -78,7 +78,7 @@ class Job {
 					const self = this;
 					$.ajax({
 						type: 'GET',
-						url: "../app_php/getShelves.php",
+						url: "../app_php/getters/getShelves.php",
 						data: {
 								shelves: true
 						},
@@ -140,6 +140,7 @@ class Job {
 	// prepend to table body;
 	prependRow(){
 		const $newRow = $(this.row).clone();
+		const currentIndex = $('.active-day').index();
 		
 		$(this.cell).clone().html(this.invoice).addClass('cell').appendTo($newRow);
 		$(this.cell).clone().html(this.range).addClass('cell').appendTo($newRow);
@@ -193,13 +194,18 @@ class Job {
 		$(this.cell).clone().html('£' + Number(this.extras.calcExtrasTotal()).toFixed(2)).addClass('cell').appendTo($newRow);
 		$(this.cell).clone().html('£' + this.calcJobTotal().toFixed(2)).addClass('cell').appendTo($newRow);
 		$($newRow).addClass('row row-job');
+		
+		// update subtotal A+B in current table;
+		Tables[currentIndex].jobsSubtotal += this.calcJobTotal();
+		Tables[currentIndex].setSubtotalAB();
+
 		return $newRow;
 	}
 	// get available ranges from database;
 	getRanges(){
 		$.ajax({
 				type: 'GET',
-				url: "../app_php/getRanges.php",
+				url: "../app_php/getters/getRanges.php",
 				data: {ranges: true},
 				dataType: 'json',
 				success: data => setOptions(data, 'ranges')
@@ -212,7 +218,7 @@ class Job {
 		if(range != $(obj).children().first().html()){
 			$.ajax({
 					type: 'GET',
-					url: "../app_php/getSizes.php",
+					url: "../app_php/getters/getSizes.php",
 					data: {range: range},
 					dataType: 'json',
 					success: data => setOptions(data, 'sizes')
@@ -245,7 +251,7 @@ class Job {
 		}
 		$.ajax({
 			type: 'GET',
-			url: "../app_php/getExtras.php",
+			url: "../app_php/getters/getExtras.php",
 			data: {
 				size: size,
 				data: data

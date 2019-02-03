@@ -1,8 +1,7 @@
 <?php
-if(isset($_GET['range'])){
-    $str = $_GET['range'];
+if(isset($_GET['ranges'])){
     // db connection;
-    require_once('./connection/db-conn-sheds.php');
+    require_once('../connection/db-conn-sheds.php');
     mysqli_report(MYSQLI_REPORT_STRICT);
     try {
         $connection = new mysqli($host, $db_user, $db_password, $db_name);
@@ -10,11 +9,14 @@ if(isset($_GET['range'])){
         if ($connection->connect_errno != 0) {
             throw new Exception(mysqli_connect_errno());
         } else {
-            // get all sizes of chosen range;
-            $result = $connection->query("SELECT * FROM `$str` WHERE 1");
-            $row = mysqli_fetch_all($result,MYSQLI_ASSOC);
+            // get all ranges;
+            $result = $connection->query("SHOW TABLES FROM `wages-sheds`");
+            $ranges = [];
+            while ($row = $result->fetch_array()) {
+                array_push($ranges, $row[0]);
+            }
             $connection->close();
-            echo json_encode($row);
+            echo json_encode($ranges);
             exit();
         }
     } catch (Exception $e) {

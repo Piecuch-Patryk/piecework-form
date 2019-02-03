@@ -34,7 +34,7 @@ Styles for private/index.php only.
 	line-height: 2rem;
 	position: relative;
 }
-.private-header input[type=date]::-webkit-inner-spin-button {
+/*.private-header input[type=date]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     display: none;
 }
@@ -42,8 +42,8 @@ Styles for private/index.php only.
   color: transparent;
   background: none;
   z-index: 1;
-}
-.private-header input[type="date"]::before {
+}*/
+/*.private-header input[type="date"]::before {
 	content: '\f073';
 	position: absolute;
 	right: 1rem;
@@ -53,7 +53,7 @@ Styles for private/index.php only.
 	font-size: 1.5rem;
 	color: rgb(220,220,220);
 	height: 2rem;
-}
+}*/
 .link-el {
 	display: block;
 	margin-top: .5rem;
@@ -220,13 +220,15 @@ input[type="date"],
 	color: rgb(220,220,220);
 	padding: 4rem;
 	box-sizing: border-box;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-around;
 	z-index: 10;
 	border-radius: .5rem;
 	box-shadow: 0 0 .5rem 0 rgba(0,0,10,.9);
 	display: none;
+}
+.hidden-wrap div {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
 }
 .hidden-wrap .sm-box {
 	flex-basis: 33%;
