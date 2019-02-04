@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 session_start();
 // access for logged users only;
@@ -6,6 +5,7 @@ if(!$_SESSION['logged']){
 	header('Location: ../login/');
 }
 ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,10 +32,6 @@ if(!$_SESSION['logged']){
 			</div>
 		</header>
 		<main>
-			<!-- Confirmation message -->
-			<div class="confirmation">
-				<h3>E-mail has been sent.</h3>
-			</div>
 			<!-- Job sheet form -->
 			<section class="section-wrap">
 				<form id="jobsheet">
@@ -110,6 +106,16 @@ if(!$_SESSION['logged']){
 							<div class="box-row">
 								<input class="sm-input" readonly type="text" value="&pound;0.00">
 							</div>
+						</div>
+						<!-- Cori-tec -->
+						<div class="sm-box">
+							<div class="box-row">
+								<label for="coritec" class="checkbox-extras">Cori-tec</label>
+								<input id="coritec" class="checkbox-extras" type="checkbox" disabled>
+							</div>
+							<div class="box-row">
+								<input class="sm-input" readonly type="text" value="&pound;0.00">
+							</div>				
 						</div>
 						<!--pop-up shelving section-->
 						<div class="sm-box">
@@ -282,6 +288,10 @@ if(!$_SESSION['logged']){
 		<div class="very-top-cover"></div>
 	<!-- End bg-cover -->
 	</div>
+	<!-- Confirmation message - email sent -->
+	<div id="confirmation" class="confirmation">
+		<h3>E-mail has been sent.</h3>
+	</div>
 	<!-- Loading animation -->
 	<div id="loading-animation" class="loading-animation-wrap">
 		<h5 class="animation-title">Sending...</h5>
@@ -306,7 +316,6 @@ if(!$_SESSION['logged']){
 	<script src="../scripts/modules/set.js"></script>
 	<!-- App -->
 	<script src="../scripts/app.js"></script>
-	
 	
 </body>
 </html>
