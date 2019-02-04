@@ -7,6 +7,7 @@ Styles for private/index.php only.
 	background-position: center;
 	background-attachment: fixed;
 	min-height: 100vh;
+	position: relative;
 }
 .bg-cover {
 	background-color: rgba(255,255,255,.5);
@@ -72,12 +73,15 @@ Styles for private/index.php only.
 }
 .private-bg .flex-wrap {
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	flex-wrap: wrap;
 	margin: .5rem 0;
 	padding: .7rem;
 	border-bottom: .1rem solid rgba(0,0,10,.9);
 	position: relative;
+}
+.private-bg .flex-wrap:first-of-type {
+	justify-content: space-around;
 }
 .private-bg .flex-wrap.center-box {
 	border: none;
@@ -92,27 +96,15 @@ Styles for private/index.php only.
 .sm-box {
 	flex-basis: 15%;
 	box-sizing: border-box;
-	padding: 1rem;
+	padding: 1rem 3rem;
 	border-right: .1rem solid rgba(0,0,10,.9);
 	text-align: center;
 }
 .sm-box:last-child{
 	border: none;
 }
-.box-row input[type="radio"] {
-	display: none;
-}
-.box-row input[type="radio"] + label {
-	box-sizing: border-box;
-	padding: .5rem 1rem;
+.checkbox-extras {
 	cursor: pointer;
-	border-radius: .25rem;
-}
-.box-row input[type="radio"] + label:hover {
-	box-shadow: inset 0 0 .4rem .05rem rgba(0,0,10,.9);
-}
-.box-row input[type="radio"]:checked + label{
-	box-shadow: inset 0 0 .4rem .2rem rgba(0,100,0,.9);
 }
 .sm-input {
 	width: 5rem;
@@ -351,12 +343,11 @@ input[type="date"],
 	margin: .1rem;
 	white-space: nowrap;
 }
-.section-wrap .cell.flex-cell {
+.section-wrap .cell .flex-cell {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
 	flex-wrap: wrap;
-	border: none;
 }
 .sm-wrap:first-child {
 	margin-right: 1rem;
@@ -386,11 +377,24 @@ footer p {
 .visible {
 	display: block;
 }
+/*Confirmation message;*/
 .confirmation {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 80%;
 	text-align: center;
-	padding: 1rem 0;
+	padding: 5rem;
 	color: rgba(25, 108, 0, 0.85);
+	background-color: rgba(255, 255, 255, .8);
+	box-shadow: 0 .5rem 1rem .2rem rgba(0,0,10,.9);
 	letter-spacing: .08rem;
+	z-index: 10;
+	display: none;
+}
+.conf-visible {
+	display: block;
 }
 
 /*Loading animation*/
@@ -398,7 +402,7 @@ footer p {
 	position: fixed;
 	top: 50%;
 	left: 50%;
-	transform: translateX(-50%);
+	transform: translate(-50%, -50%);
 	width: 10rem;
 	height: 10rem;
 	box-sizing: border-box;
