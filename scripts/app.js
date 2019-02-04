@@ -50,24 +50,36 @@ document.addEventListener('DOMContentLoaded', function(){
 		}
 		TempJobsheet.priceA = 0;
 		TempJobsheet.getSizes(this);
+		TempJobsheet.resetPrice('coritec');
+		TempJobsheet.extras['coritec'].checked = false;
+		TempJobsheet.extras.checked = false;
+		TempJobsheet.extras.setExtrasPrice('coritec');
 		TempJobsheet.extras.shelvings.resetDefalut();
 		TempJobsheet.extras.setExtrasTotal()
 		TempJobsheet.setJobTotal();
+		// disable checkbox;
+		TempJobsheet.toggleCheckbox(false);
 	});
 	// size changed;
 	$('#sizes').on('change', function(){
 		const $selected = $(this).children(':selected');
+		// '--please select--' selected;
 		if($($selected).text() == $(this).children().first().text()){
-			// '--please select--' selected;
 			TempJobsheet.size = '';
 			TempJobsheet.priceA = 0;
 			TempJobsheet.setProductPrice();
+		// size selected;
 		}else {
-			// size selected;
 			const priceNum = parseFloat($($selected).attr('data-price'));
 			TempJobsheet.size = $($selected).text();
 			TempJobsheet.setProductPrice(priceNum);
+			// enable checkbox;
+			TempJobsheet.toggleCheckbox(true);
 		}
+		TempJobsheet.resetPrice('coritec');
+		TempJobsheet.extras['coritec'].checked = false;
+		TempJobsheet.extras.checked = false;
+		TempJobsheet.extras.setExtrasPrice('coritec');
 		TempJobsheet.extras.shelvings.resetDefalut();
 		TempJobsheet.extras.setExtrasTotal()
 		TempJobsheet.resetOptions();
@@ -102,25 +114,44 @@ document.addEventListener('DOMContentLoaded', function(){
 			}
 		});
 	});
-	
+	/**** Extras - cori-tec*/
+	$('#coritec').on('change', function(){
+		const name = $(this).attr('id');
+		if($(this).is(':checked')){
+			// checked;
+			TempJobsheet.getExtras(name);
+			TempJobsheet.extras.checked = true;
+			TempJobsheet.extras[name].checked = true;
+		}else {
+			TempJobsheet.resetPrice(name);
+			TempJobsheet.extras.checked = false;
+			TempJobsheet.extras[name].checked = false;
+		}
+		TempJobsheet.extras.setExtrasPrice(name);
+		TempJobsheet.extras.setExtrasTotal();
+		TempJobsheet.setJobTotal();
+	})
 	/**** Shelves*/
 	// get and set prices;
 	TempJobsheet.extras.shelvings.getShelvesData();
 	// toggle display;
 	$('#shelves-btn').on('click', () => {
-		TempJobsheet.extras.shelvings.toggleShelvesSestion();
-		// window scroll disabled;
-		$(window).on('scroll touchmove mousewheel', function(e){
-			e.preventDefault();
-			e.stopPropagation();
-		});
-		$('.close-btn').on('click', () => {
-			// window scroll enabled;
-			$(window).off('scroll touchmove mousewheel');
+		// open only if size chosen;
+		if(TempJobsheet.size != ''){
 			TempJobsheet.extras.shelvings.toggleShelvesSestion();
-		});
-		$('#add-shelves').on('click', TempJobsheet.extras.shelvings.toggleShelvesSestion);
-		$('.very-top-cover').on('click', TempJobsheet.extras.shelvings.toggleShelvesSestion);
+			// window scroll disabled;
+			$(window).on('scroll touchmove mousewheel', function(e){
+				e.preventDefault();
+				e.stopPropagation();
+			});
+			$('.close-btn').on('click', () => {
+				// window scroll enabled;
+				$(window).off('scroll touchmove mousewheel');
+				TempJobsheet.extras.shelvings.toggleShelvesSestion();
+			});
+			$('#add-shelves').on('click', TempJobsheet.extras.shelvings.toggleShelvesSestion);
+			$('.very-top-cover').on('click', TempJobsheet.extras.shelvings.toggleShelvesSestion);
+		}
 	});
 	// changed quantity;
 	$('.hidden-wrap input[type="number"]').on('input', function(){
@@ -142,6 +173,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		if((TempJobsheet.size != '') && ($('#invoice').val().length > 3)){
 			$('.active-day').find('tbody').prepend(TempJobsheet.prependRow());
 			setHeight();
+			TempJobsheet.toggleCheckbox(false);
 			TempJobsheet.resetDOMelements();
 			TempJobsheet = new Job();
 			// reset invoice bgc;
