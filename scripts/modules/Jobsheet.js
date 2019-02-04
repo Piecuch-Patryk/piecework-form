@@ -26,6 +26,10 @@ class Job {
 				price: 0,
 				checked: false
 			},
+			coritec: {
+				price: 0,
+				checked: false
+			},
 			shelvings: {
 				checked: false,
 				shelves: [],
@@ -112,7 +116,7 @@ class Job {
 				}
 			},
 			calcExtrasTotal(){
-				let sum = parseFloat(Number(this.base.price / 100) + Number(this.gutter.price / 100) + Number(this.waterbutt.price / 100) + Number(this.shelvings.calcShelvesPrice()));
+				let sum = parseFloat(Number(this.base.price / 100) + Number(this.gutter.price / 100) + Number(this.waterbutt.price / 100) + Number(this.shelvings.calcShelvesPrice()) + Number(this.coritec.price / 100));
 				return sum.toFixed(2);
 			},
 			setExtrasPrice(name){
@@ -153,24 +157,27 @@ class Job {
 			const $cell = $(this.cell).clone();
 			// base;
 			if(this.extras.base.checked){
-				$($div)
-					.append($('<span>')
-					.addClass('sm-cell-el')
-					.html(`${this.extras.base.type}: £${Number(this.extras.base.price / 100).toFixed(2)}`));				
+				$($div).append($('<span>')
+											 .addClass('sm-cell-el')
+											 .html(`${this.extras.base.type}: £${Number(this.extras.base.price / 100).toFixed(2)}`));				
 			}
 			// guttering;
 			if(this.extras.gutter.checked){
-				$($div)
-					.append($('<span>')
-					.addClass('sm-cell-el')
-					.html(`guttering x${this.extras.gutter.qty}: £${Number(this.extras.gutter.price / 100).toFixed(2)}`));				
+				$($div).append($('<span>')
+											 .addClass('sm-cell-el')
+											 .html(`guttering x${this.extras.gutter.qty}: £${Number(this.extras.gutter.price / 100).toFixed(2)}`));				
 			}
 			// waterbutt;
 			if(this.extras.waterbutt.checked){
-				$($div)
-					.append($('<span>')
-					.addClass('sm-cell-el')
-					.html(`waterbutt x${this.extras.waterbutt.qty}: £${Number(this.extras.waterbutt.price / 100).toFixed(2)}`));				
+				$($div).append($('<span>')
+											 .addClass('sm-cell-el')
+											 .html(`waterbutt x${this.extras.waterbutt.qty}: £${Number(this.extras.waterbutt.price / 100).toFixed(2)}`));				
+			}
+			// coritec;
+			if(this.extras.coritec.checked){
+				$($div).append($('<span>')
+											 .addClass('sm-cell-el')
+											 .html(`cori-tec: £${Number(this.extras.coritec.price / 100).toFixed(2)}`));
 			}
 			// shelves;
 			const arr = [];
@@ -240,6 +247,10 @@ class Job {
 				else if (dataIndex == 2) data = 'easy-base';
 				dataIndex = 0;
 				break;
+			case 'coritec':
+				size = this.size;
+				data = 'coritec';
+				break;
 			case 'gutter':
 				size = this.size.split('x')[0];
 				data = 'guttering';
@@ -263,6 +274,10 @@ class Job {
 				// base only;
 				if(dataIndex == 0){
 					TempJobsheet.extras[name].type = data;
+					TempJobsheet.extras[name].price = result[0].price;
+				}
+				// cori-tec only;
+				if(name == 'coritec'){
 					TempJobsheet.extras[name].price = result[0].price;
 				}
 				// gutter and waterbutt only;
@@ -333,6 +348,15 @@ class Job {
 		$('#jobsheet input[type="text"]').val('£0.00');
 		$('#jobsheet .hidden-wrap input[type="number"]').val(0);
 		$('#invoice').val('');
+	}
+	// enable/disable checkbox;
+	toggleCheckbox(bool){
+		// disabled;
+		if(bool == false || this.range == 'heavy-duty' || this.range == 'ryton') $('#coritec').attr('disabled', true);
+		// enabled;
+		else $('#coritec').prop('disabled', false);
+		
+		$('#coritec').prop('checked', false);
 	}
 }
 
