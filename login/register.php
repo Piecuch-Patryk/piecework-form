@@ -1,10 +1,10 @@
-<!DOCTYPE html>
 <?php session_start(); ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wages app v.5</title>
+  <title>Wages app v.5</title>
 	<!-- fontawesome -->
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="../styles/main.css">
@@ -15,6 +15,7 @@
 	<main>
 		<form class="form-wrap" action="../app_php/register.php" method="POST">
 			<h1>Register new account here!</h1>
+			<!--name-->
 			<div class="flex-wrap">
 				<label for="name">Name</label>
 				<div>
@@ -32,6 +33,7 @@
 						?></p>
 				</div>
 			</div>
+			<!--surname-->
 			<div class="flex-wrap">
 				<label for="surname">Surname</label>			
 				<div>
@@ -49,6 +51,7 @@
 						?></p>
 				</div>
 			</div>
+			<!--email-->
 			<div class="flex-wrap">
 				<label id="email">E-mail</label>			
 				<div>
@@ -66,7 +69,8 @@
 						?></p>
 				</div>
 			</div>
-			<div class="flex-wrap">
+			<!--pass-->
+			<div class="flex-wrap password-info">
 				<label id="pass">Password</label>
 				<div>
 					<input id="pass" type="password" name="pass" autofill="password" required>
@@ -77,7 +81,19 @@
 							}
 						?></p>
 				</div>
+				<i id="pass-info" class="fas fa-info"></i>
+				<!--password tips-->
+				<div id="pass-tip-wrap" class="pass-tip hidden">
+					<ul>Password must contains:
+						<li>- one upper case letter;</li>
+						<li>- one lower case letter;</li>
+						<li>- one digit;</li>
+						<li>- one special character;</li>
+						<li>- between 8 and 30 characters;</li>
+					</ul>
+				</div>
 			</div>
+			<!--pass2-->
 			<div class="flex-wrap">
 				<label id="pass2">Repeat password</label>
 				<div>
@@ -90,9 +106,11 @@
 						?></p>
 				</div>
 			</div>
+			<!--submit-->
 			<div class="btn-wrap">
 				<button class="submit-btn" name="submit">Register</button>
 			</div>
+			<!--back to login page-->
 			<div class="btn-wrap">
 				<a href="./index.php">Back to login site</a>
 			</div>
@@ -100,6 +118,9 @@
 	</main>
 	<!-- jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	
+	<script>
+		// toggle password info;
+		$('#pass-info').on('click', () => $('#pass-tip-wrap').toggle('fold'));
+	</script>
 </body>
 </html>
