@@ -186,6 +186,81 @@ document.addEventListener('DOMContentLoaded', function(){
 	});
 	/*
 	
+	Manual typing
+	
+	*/
+	/**** Toggle selects*/
+	$('#change-icon').on('click', function(){
+		const $inputs = $('.manual-input');
+		const $priceBox = $('#product-price');
+		$('.select').each((i, el) => {
+			// hide inputs;
+			if($(el).hasClass('hidden')) {
+				$(el).removeClass('hidden');
+				$($inputs[i]).addClass('hidden');
+				$($priceBox).prop('readonly', true);
+				$('#coritec').prop('disabled', true);
+			}
+			// show inputs;
+			else {
+				$(el).addClass('hidden');
+				$($inputs[i]).removeClass('hidden');
+				$($priceBox).prop('readonly', false);
+			}
+		})
+	});
+	/****Validate range*/
+	$('#manual-range').on('input', function(){
+		// letters only;
+		const letters = /^[A-Za-z]+$/;
+		const value = $(this).val();
+		if(!value.match(letters)){
+			const newValue = value.slice(0, -1);
+			$(this).val(newValue);
+			$('#typing-error').stop().fadeIn(500);
+			setTimeout(() => {
+				$('#typing-error').stop().fadeOut(500);
+			}, 2000);
+		}
+	});
+	$('#manual-range').on('blur', function(){
+		$('#typing-error').stop().fadeOut(500);
+		TempJobsheet.range = $(this).val();
+	});
+	/**** Validate size*/
+	$('#manual-size').on('blur', function(){
+		let val = $(this).val();
+		const splited = val.split('x');
+		let newVal = '';
+		// if first value is smaller than second one;
+		if(Number(splited[0]) < Number(splited[1])){
+			newVal = splited[1] + 'x' + splited[0];
+		}else {
+			newVal = val;
+		}
+		TempJobsheet.size = newVal;
+		$('#coritec').prop('disabled', false);
+	});
+	/**** Validate price*/
+	$('#product-price').on('input', function(){
+		const value = $(this).val();
+		// keep £ on front;
+		if(value.length == 0 || value.length < 2){
+			$(this).val('£' + value);
+			// prevent double £ symbol;
+			if($(this).val().split('')[1] == '£'){
+				$(this).val('£');
+			}
+		}
+		// confirm with ENTER;
+		$(this).on('keypress', function(e){
+			if(e.charCode == 13) this.blur();
+		});
+		$(this).on('blur', () => TempJobsheet.priceA = Number($(this).val().split('£')[1]));
+	});
+	
+	/*
+	
 	Week - tables
 	
 	*/
