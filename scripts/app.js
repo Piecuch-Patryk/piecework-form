@@ -1,6 +1,6 @@
 const DatesObj = new Dates();
 let TempJobsheet = new Job();
-const Tables = [];
+let Tables = [];
 const WeekTotalTable = new SummaryWeek();
 let WholeWeekData = new WeekTotal();
 let HiddenForm;
@@ -102,8 +102,8 @@ document.addEventListener('DOMContentLoaded', function(){
 					if(dataIndex == 0){
 						// reset extras when option has been changed to '--please select--';
 						TempJobsheet.resetSpecificOption(name);
-						TempJobsheet.extras.checked = false;
-						TempJobsheet.extras[name].checked = false;
+						TempJobsheet.extras.setExtrasPrice(name);
+						TempJobsheet.setJobTotal();
 						return;
 					}
 					TempJobsheet.extras.checked = true;
@@ -292,7 +292,9 @@ document.addEventListener('DOMContentLoaded', function(){
 		$('.active-day .extra-hours').on('input', function(ev){
 			ev.stopImmediatePropagation();
 			Tables[$('.active-day').index()].calcExtraHours();
-			Tables[$('.active-day').index()].setExtraHours();	
+			Tables[$('.active-day').index()].setExtraHours();
+			WholeWeekData.setGross();
+			WholeWeekData.setNet();
 		});
 	});
 	
@@ -320,6 +322,17 @@ document.addEventListener('DOMContentLoaded', function(){
 		HiddenForm = new Form();
 		HiddenForm.getPdfData();
 		HiddenForm.submitForm();
+		// create new week tables;
+		$('#tables-container').html('');
+		Tables = [];
+		$(weekDays()).each((i, el) => {
+			const NewObj = new TableObj();
+			Tables.push(NewObj);
+			$('#tables-container').append(NewObj.createTable(i));
+		});
+		// reset whole week data;
+		WholeWeekData.resetDOM();
+		WholeWeekData = new WeekTotal();
 	});
 
 	
