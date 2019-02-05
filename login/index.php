@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 session_start();
 // redirect if logged;
@@ -7,6 +6,7 @@ if(isset($_SESSION['logged'])){
 	exit;
 }
 ?>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,7 +21,12 @@ if(isset($_SESSION['logged'])){
 		<form method="POST" action="../app_php/login.php">
 			<h1>Piecework form sheet</h1>
 			<div class="form-row">
-				<input class="input" type="email" name="username" autofill="email" required placeholder="E-mail">
+				<input class="input" type="email" name="username" autofill="email" required placeholder="E-mail" value=<?php
+							 if(isset($_SESSION['temp_email'])){
+								 echo $_SESSION['temp_email'];
+								 unset($_SESSION['temp_email']);
+							 }
+							 ?>>
 				<label>E-mail</label>
 			</div>
 			<div class="form-row">
