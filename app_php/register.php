@@ -20,7 +20,7 @@ if(isset($_POST['submit'])){
 	// Surname characters;
 	if(!ctype_alpha($surname)){
 		$flag = false;
-		$_SESSION['e_surname'] = 'Name must contains letters only.';
+		$_SESSION['e_surname'] = 'Surname must contains letters only.';
 	}
 	// Remove unwanted characters from email;
 	$emailSafety = filter_var($email, FILTER_SANITIZE_EMAIL);
@@ -35,7 +35,7 @@ if(isset($_POST['submit'])){
 		$_SESSION['e_password'] = 'Password must contain between 8 and 20 characters.';
 	}
 	// Password repeat;
-	if($pass != $pass2){
+	else if($pass != $pass2){
 		$all_fine = false;
 		$_SESSION['e_password2'] = 'Both passwords must be the same.';		
 	}
@@ -66,7 +66,7 @@ if(isset($_POST['submit'])){
 					}else{
 						// Register new user;
 						// Email doesn't occur in db;
-						$result = $connection->query(sprintf("INSERT INTO `users` (`id`, `name`, `surname`, `email`, `password`) VALUES(NULL, '%s', '%s', '%s', '%s')", $name, $surname, $emailSafety, $pass_hash));
+						$result = $connection->query(sprintf("INSERT INTO `users` (`id`, `name`, `surname`, `email`, `password`) VALUES(NULL, '%s', '%s', '%s', '%s')",mysqli_real_escape_string($name, $surname, $emailSafety, $pass_hash)));
 						if(!$result){
 							// Error;
 							throw new Exception($connection->error);
