@@ -24,4 +24,10 @@ class WeekTotal {
 	setAverageRate(){
 		$('#average-rate').html(`£${this.calcAverageRate().toFixed(2)}`);
 	}
+	resetDOM(){
+		$('#average-input').val('40');
+		$('#average-rate').html('£0.00');
+		$('#week-total-gross').html('£0.00');
+		$('#week-total-net').html('£0.00');
+	}
 }
