@@ -7,6 +7,11 @@ if(isset($_POST['submit'])){
 	$pass = $_POST['pass'];
 	$pass2 = $_POST['pass2'];
 	$flag = true;
+	$pass_lowercase = preg_match('@[a-z]@', $pass);
+	$pass_uppercase = preg_match('@[A-Z]@', $pass);
+	$pass_digit = preg_match('@[0-9]@', $pass);
+	$pass_special_char = preg_match('/()!@#$.,:_-/', $pass);
+	
 	
 	$_SESSION['tempName'] = $name;
 	$_SESSION['tempSurname'] = $surname;
@@ -29,30 +34,54 @@ if(isset($_POST['submit'])){
 		$flag = false;
 		$_SESSION['e_email'] = 'Enter correct e-mail adress.';
 	}
-	// Password must contains 8 to 20 characters;
-	if((strlen($pass) < 8) || (strlen($pass) > 20)) {
+	// Password must contains 8 to 30 characters;
+	if((strlen($pass) < 8) || (strlen($pass) > 30)) {
 		$flag = false;
 		$_SESSION['e_password'] = 'Password must contain between 8 and 20 characters.';
 	}
+	// pass lowercase;
+	else if(!$pass_lowercase){
+		$flag = false;
+		$_SESSION['e_password'] = 'Password must contain at least one lowercase letter.';
+	}
+	// pass uppercase;
+	else if(!$pass_uppercase){
+		$flag = false;
+		$_SESSION['e_password'] = 'Password must contain at least one uppercase letter.';
+	}
+	// pass digit;
+	else if(!$pass_digit){
+		$flag = false;
+		$_SESSION['e_password'] = 'Password must contain at least one digit.';
+	}
+	// special characters;
+	else if(!$pass_special_char){
+		$flag = false;
+		$_SESSION['e_password'] = 'Password must contain at least one special character.';
+	}
 	// Password repeat;
-	else if($pass != $pass2){
+	if($pass != $pass2){
 		$all_fine = false;
 		$_SESSION['e_password2'] = 'Both passwords must be the same.';		
 	}
-	// Hash password;
-	$pass_hash = password_hash($pass, PASSWORD_BCRYPT);
 	
 	if($flag){
 		require './connection/db-conn-users.php';
 		mysqli_report(MYSQLI_REPORT_STRICT);
 		try{
-			$connection = new mysqli($host, $db_user, $db_password, $db_name);
-            if($connection->connect_errno != 0){
+				$connection = new mysqli($host, $db_user, $db_password, $db_name);
+				$name = mysqli_real_escape_string($connection, $name);
+				$surname = mysqli_real_escape_string($connection, $surname);
+				$pass = mysqli_real_escape_string($connection, $pass);
+				$pass2 = mysqli_real_escape_string($connection, $pass2);
+				// Hash password;
+				$pass_hash = password_hash($pass, PASSWORD_BCRYPT);
+        if($connection->connect_errno != 0){
 				// Throw error if connection failed;
                 throw new Exception(mysqli_errno());
             }else {
 				// Check if given email exist;
-				$result = $connection->query(sprintf("SELECT `email` from `users` WHERE `email` = '%s'", mysqli_real_escape_string($emailSafety)));
+				$result = $connection->query(sprintf("SELECT `email` from `users` WHERE `email` = '%s'", $emailSafety));
 				if(!$result){
 					// Error;
 					throw new Exception($connection->error);
@@ -66,7 +95,7 @@ if(isset($_POST['submit'])){
 					}else{
 						// Register new user;
 						// Email doesn't occur in db;
-						$result = $connection->query(sprintf("INSERT INTO `users` (`id`, `name`, `surname`, `email`, `password`) VALUES(NULL, '%s', '%s', '%s', '%s')",mysqli_real_escape_string($name, $surname, $emailSafety, $pass_hash)));
+						$result = $connection->query(sprintf("INSERT INTO `users` (`id`, `name`, `surname`, `email`, `password`) VALUES(NULL, '%s', '%s', '%s', '%s')", $name, $surname, $emailSafety, $pass_hash));
 						if(!$result){
 							// Error;
 							throw new Exception($connection->error);
@@ -80,7 +109,6 @@ if(isset($_POST['submit'])){
 						}
 					}
 				}
-				
 			}
 		}
 		catch(Exception $e){
