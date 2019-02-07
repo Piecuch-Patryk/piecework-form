@@ -10,7 +10,7 @@ if(isset($_POST['submit'])){
 	$pass_lowercase = preg_match('@[a-z]@', $pass);
 	$pass_uppercase = preg_match('@[A-Z]@', $pass);
 	$pass_digit = preg_match('@[0-9]@', $pass);
-	$pass_special_char = preg_match('/()!@#$.,:_-/', $pass);
+	$pass_special_char = preg_match('/[()!@#$.,:_-]/', $pass);
 	
 	
 	$_SESSION['tempName'] = $name;
@@ -91,7 +91,7 @@ if(isset($_POST['submit'])){
 						// Email occurs in db;
 						$_SESSION['e_email'] = 'The email you have entered is already registered.';
 						$connection->close();
-						header('Location ../login/register.php');
+						header('Location: ../login/register.php');
 					}else{
 						// Register new user;
 						// Email doesn't occur in db;
@@ -104,7 +104,6 @@ if(isset($_POST['submit'])){
 							$_SESSION['logged'] = true;
 							$_SESSION['name'] = $name;
 							$_SESSION['surname'] = $surname;
-							
 							header('Location: ../private/');
 						}
 					}
