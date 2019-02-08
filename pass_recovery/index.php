@@ -78,6 +78,11 @@ if(!isset($_SESSION['newpass'])){
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
 		// Toggle placeholder;
+		if(!$('#login').is(':invalid')){
+			$('#login').next().css('display', 'block').animate({
+				opacity: 1
+			});
+		}
 		$('.input').on('focus', function(){
 			const text = this.placeholder;
 			// show label;
