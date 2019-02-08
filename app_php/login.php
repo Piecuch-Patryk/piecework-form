@@ -4,7 +4,6 @@ if(isset($_POST['username'])){
 	$login = $_POST['username'];
 	$password = $_POST['password'];
 	$flag = true;
-	
 	$_SESSION['temp_email'] = $login;
 	// Remove unwanted characters from email;
 	$emailSafety = filter_var($login, FILTER_SANITIZE_EMAIL);
@@ -13,7 +12,6 @@ if(isset($_POST['username'])){
 		$flag = false;
 		$_SESSION['e_email'] = 'Enter correct e-mail adress.';
 	}
-	
 	if($flag){
 		require './connection/db-conn-users.php';
 		mysqli_report(MYSQLI_REPORT_STRICT);
@@ -33,7 +31,7 @@ if(isset($_POST['username'])){
 					if($numberRows > 0){
 						$row = $result->fetch_assoc();
 						// verify password;
-						if(password_verify($password, $row[password])){
+						if(password_verify($password, $row['password'])){
 							// LOGGED;
 							$connection->close();
 							$_SESSION['logged'] = true;
@@ -42,11 +40,11 @@ if(isset($_POST['username'])){
 							$_SESSION['email'] = $row['email'];
 							header('Location: ../private/');							
 						}else{
-							$_SESSION['e_login_pass'] = 'Wrong pair email /	password';
+							$_SESSION['e_login_pass'] = 'Wrong pair email/password';
 							header('Location: ../login/index.php');
 						}
 					}else{
-						$_SESSION['e_login_pass'] = 'Wrong pair email/	password';
+						$_SESSION['e_login_pass'] = 'Wrong pair email/password';
 						header('Location: ../login/index.php');
 					}
 				}
