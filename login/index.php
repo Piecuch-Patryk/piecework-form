@@ -19,19 +19,27 @@ if(isset($_SESSION['logged'])){
 	<main class="form-wrap">
 		<!-- Login form -->
 		<form method="POST" action="../app_php/login.php">
-			<h1>Piecework form sheet</h1>
+			<h1><?php
+				if(isset($_SESSION['pass_updated'])){
+					echo $_SESSION['pass_updated'];
+					unset($_SESSION['pass_updated']);
+				}else {
+					echo 'Piecework form sheet';
+				}
+				
+				?></h1>
 			<div class="form-row">
-				<input class="input" type="email" name="username" autofill="email" required placeholder="E-mail" value=<?php
+				<input id="login" class="input" type="email" name="username" autofill="email" required placeholder="E-mail" value=<?php
 							 if(isset($_SESSION['temp_email'])){
 								 echo $_SESSION['temp_email'];
 								 unset($_SESSION['temp_email']);
 							 }
 							 ?>>
-				<label>E-mail</label>
+				<label for="login">E-mail</label>
 			</div>
 			<div class="form-row">
-				<input class="input" type="password" name="password" autofill="password" required placeholder="Password">
-				<label>Password</label>
+				<input id="password" class="input" type="password" name="password" autofill="password" required placeholder="Password">
+				<label for="password">Password</label>
 			</div>
 			<p class="error-field"><?php
 				if(isset($_SESSION['e_login_pass'])){
@@ -40,6 +48,9 @@ if(isset($_SESSION['logged'])){
 			?></p>
 			<div class="form-row">
 				<button>Submit</button>
+			</div>
+			<div class="form-row">
+				<a href="../pass_recovery/recovery.php">Password recovery</a>
 			</div>
 			<div class="form-row">
 				<a href="./register.php">Create free account</a>
