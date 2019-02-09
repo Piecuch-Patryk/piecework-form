@@ -172,7 +172,6 @@ document.addEventListener('DOMContentLoaded', function(){
 		// only if form was completed;
 		if((TempJobsheet.size != '') && ($('#invoice').val().length > 3)){
 			$('.active-day').find('tbody').prepend(TempJobsheet.prependRow());
-			setHeight();
 			TempJobsheet.toggleCheckbox(false);
 			TempJobsheet.resetDOMelements();
 			TempJobsheet = new Job();
@@ -289,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	
 	/**** Extra hours - subtotal*/
 	$('#tables-container').on('mouseenter', function(e){
-		e.stopImmediatePropagation();
+		e.stopPropagation();
 		$('.active-day .extra-hours').on('input', function(ev){
 			ev.stopImmediatePropagation();
 			Tables[$('.active-day').index()].calcExtraHours();
@@ -299,19 +298,30 @@ document.addEventListener('DOMContentLoaded', function(){
 		});
 	});
 	
-	/**** Delete row*/
-	$('#tables-container').on('mouseover', function(){
+	/**** Remove row*/
+	$('#tables-container').on('mouseenter', function(){
 		const $rows = $(this).find('.row-job');
 		if($rows.length > 0){
 			// animate background-color;
 			$($rows).on('mouseenter', function(e){
 				e.stopImmediatePropagation();
 				$(this).addClass('active-row');
-				$(this).on('mouseleave', () => $(this).removeClass('active-row'));
-			})
-		}
-		
-		
+				$(this).on('mouseleave', function(){
+					$(this).removeClass('active-row');
+				});
+				// delete chosen row;
+				$(this).find('.far').on('click', function(e){
+					e.stopImmediatePropagation();
+					const price = $(this).closest('.row-job').find('.cell').last().text().split('£')[1];
+					TempJobsheet.removeRow(price);
+					$(this).closest('.row-job').remove();
+					WholeWeekData.setGross();
+					WholeWeekData.setNet();
+					WholeWeekData.setAverageRate();
+					setHeight();
+				});
+			});
+		}		
 	});
 	
 	/*
