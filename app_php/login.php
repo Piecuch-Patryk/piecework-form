@@ -1,17 +1,11 @@
 <?php
 if(isset($_POST['username'])){
 	session_start();
-	$login = $_POST['username'];
+	$email = $_POST['username'];
 	$password = $_POST['password'];
 	$flag = true;
-	$_SESSION['temp_email'] = $login;
-	// Remove unwanted characters from email;
-	$emailSafety = filter_var($login, FILTER_SANITIZE_EMAIL);
-	// check email format and compare with safety email;
-	if((!filter_var($emailSafety, FILTER_VALIDATE_EMAIL)) || ($emailSafety != $login)){
-		$flag = false;
-		$_SESSION['e_email'] = 'Enter correct e-mail adress.';
-	}
+	$_SESSION['temp_email'] = $email;
+	require_once './validate/email.php';
 	if($flag){
 		require './connection/db-conn-users.php';
 		mysqli_report(MYSQLI_REPORT_STRICT);
