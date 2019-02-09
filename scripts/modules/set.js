@@ -27,7 +27,9 @@ function setShelvesPrices(result){
 }
 // set table height to days-wrap;
 function setHeight(){
-		const $activeDay = $('.active-day').closest('.tables-wrap');
-		const height = $($activeDay).find('.active-day').find('table').css('height');
-		$($activeDay).css('height', height);
-	}
+	const $activeDay = $('.active-day').closest('.tables-wrap');
+	const height = $($activeDay).find('.active-day').find('table').css('height');
+	$($activeDay).animate({
+		height: height
+	}, 150);
+}
