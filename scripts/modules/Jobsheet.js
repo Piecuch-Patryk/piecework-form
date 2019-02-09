@@ -146,7 +146,7 @@ class Job {
 		const $newRow = $(this.row).clone();
 		const currentIndex = $('.active-day').index();
 		
-		$(this.cell).clone().html(this.invoice).addClass('cell').appendTo($newRow);
+		$(this.cell).clone().html(this.invoice).append($('<i>').addClass('far fa-trash-alt')).addClass('cell cell-invoice').appendTo($newRow);
 		$(this.cell).clone().html(this.range).addClass('cell').appendTo($newRow);
 		$(this.cell).clone().html(this.size).addClass('cell').appendTo($newRow);
 		$(this.cell).clone().html(`£${this.priceA.toFixed(2)}`).addClass('cell').appendTo($newRow);
@@ -209,6 +209,11 @@ class Job {
 		Tables[currentIndex].setSubtotalAB();
 
 		return $newRow;
+	}
+	removeRow(price){
+		const currentIndex = $('.active-day').index();		
+		Tables[currentIndex].jobsSubtotal -= Number(price);
+		Tables[currentIndex].setSubtotalAB();
 	}
 	// get available ranges from database;
 	getRanges(){
@@ -343,11 +348,22 @@ class Job {
 		this.extras[name].price = 0;
 	}
 	resetDOMelements(){
+		const $manualInputs = $('.manual-input');
 		this.resetSpecificOption('sizes');
 		$('#jobsheet select').each((i, el) => $(el).prop('selectedIndex', 0));
-		$('#jobsheet input[type="text"]').val('£0.00');
+		$('#jobsheet input[type="text"]').not('.manual-input').val('£0.00');
+		$('#jobsheet .manual-input').each((i, el) => $(el).val(''));
 		$('#jobsheet .hidden-wrap input[type="number"]').val(0);
 		$('#invoice').val('');
+		$('.select').each((i, el) => {
+			// show selects;
+			if($(el).hasClass('hidden')){
+				$(el).removeClass('hidden');
+				$($manualInputs[i]).addClass('hidden');
+			}
+		});
+		$('#product-price').prop('readonly', true);
+		$('#coritec').prop('disabled', true);
 	}
 	// enable/disable checkbox;
 	toggleCheckbox(bool){
