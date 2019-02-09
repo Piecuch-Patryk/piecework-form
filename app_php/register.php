@@ -6,13 +6,9 @@ if(isset($_POST['submit'])){
 	$email = $_POST['email'];
 	$pass = $_POST['pass'];
 	$pass2 = $_POST['pass2'];
-	$flag = true;
-	$pass_lowercase = preg_match('@[a-z]@', $pass);
-	$pass_uppercase = preg_match('@[A-Z]@', $pass);
-	$pass_digit = preg_match('@[0-9]@', $pass);
-	$pass_special_char = preg_match('/[()!@#$.,:_-]/', $pass);
-	
-	
+	require_once './validate/password.php';
+	require_once './validate/email.php';
+
 	$_SESSION['tempName'] = $name;
 	$_SESSION['tempSurname'] = $surname;
 	$_SESSION['tempEmail'] = $email;
@@ -27,43 +23,6 @@ if(isset($_POST['submit'])){
 		$flag = false;
 		$_SESSION['e_surname'] = 'Surname must contains letters only.';
 	}
-	// Remove unwanted characters from email;
-	$emailSafety = filter_var($email, FILTER_SANITIZE_EMAIL);
-	// check email format and compare with safety email;
-	if((!filter_var($emailSafety, FILTER_VALIDATE_EMAIL)) || ($emailSafety != $email)){
-		$flag = false;
-		$_SESSION['e_email'] = 'Enter correct e-mail adress.';
-	}
-	// Password must contains 8 to 30 characters;
-	if((strlen($pass) < 8) || (strlen($pass) > 30)) {
-		$flag = false;
-		$_SESSION['e_password'] = 'Password must contain between 8 and 20 characters.';
-	}
-	// pass lowercase;
-	else if(!$pass_lowercase){
-		$flag = false;
-		$_SESSION['e_password'] = 'Password must contain at least one lowercase letter.';
-	}
-	// pass uppercase;
-	else if(!$pass_uppercase){
-		$flag = false;
-		$_SESSION['e_password'] = 'Password must contain at least one uppercase letter.';
-	}
-	// pass digit;
-	else if(!$pass_digit){
-		$flag = false;
-		$_SESSION['e_password'] = 'Password must contain at least one digit.';
-	}
-	// special characters;
-	else if(!$pass_special_char){
-		$flag = false;
-		$_SESSION['e_password'] = 'Password must contain at least one special character.';
-	}
-	// Password repeat;
-	if($pass != $pass2){
-		$all_fine = false;
-		$_SESSION['e_password2'] = 'Both passwords must be the same.';		
-	}
 	
 	if($flag){
 		require './connection/db-conn-users.php';
@@ -77,9 +36,9 @@ if(isset($_POST['submit'])){
 				// Hash password;
 				$pass_hash = password_hash($pass, PASSWORD_BCRYPT);
         if($connection->connect_errno != 0){
-				// Throw error if connection failed;
-                throw new Exception(mysqli_errno());
-            }else {
+					// Throw error if connection failed;
+					throw new Exception(mysqli_errno());
+        }else {
 				// Check if given email exist;
 				$result = $connection->query(sprintf("SELECT `email` from `users` WHERE `email` = '%s'", $emailSafety));
 				if(!$result){
