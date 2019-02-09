@@ -389,13 +389,31 @@ input[type="date"],
 }
 /*Job-row animation*/
 .row-job {
+	position: relative;
 	background-color: transparent;
 	transition: .5s;
 }
 .active-row {
 	background-color: rgba(0,0,10,.3);
 }
-
+.row-job .cell-invoice {
+	position: relative;
+	overflow-x: hidden;
+}
+.row-job .far {
+	position: absolute;
+	top: 50%;
+	left: -2rem;
+	transform: translateY(-50%);
+	cursor: pointer;
+	transition: .5s;
+}
+.row-job .far:hover {
+	color: rgba(220, 0, 0, 1);
+}
+.active-row.row-job .far {
+	left: .2rem;
+}
 .extra-hours {
 	margin-right: .3rem;
 }
