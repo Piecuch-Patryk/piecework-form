@@ -182,6 +182,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			WholeWeekData.setGross();
 			WholeWeekData.setNet();
 			WholeWeekData.setAverageRate();
+			setHeight();
 		}
 	});
 	/*
@@ -296,6 +297,21 @@ document.addEventListener('DOMContentLoaded', function(){
 			WholeWeekData.setGross();
 			WholeWeekData.setNet();
 		});
+	});
+	
+	/**** Delete row*/
+	$('#tables-container').on('mouseover', function(){
+		const $rows = $(this).find('.row-job');
+		if($rows.length > 0){
+			// animate background-color;
+			$($rows).on('mouseenter', function(e){
+				e.stopImmediatePropagation();
+				$(this).addClass('active-row');
+				$(this).on('mouseleave', () => $(this).removeClass('active-row'));
+			})
+		}
+		
+		
 	});
 	
 	/*
