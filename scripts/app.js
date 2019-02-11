@@ -228,18 +228,21 @@ document.addEventListener('DOMContentLoaded', function(){
 		TempJobsheet.range = $(this).val();
 	});
 	/**** Validate size*/
+	$('#manual-size').on('input', () => $('#size-error').stop().fadeOut(500));
 	$('#manual-size').on('blur', function(){
 		let val = $(this).val();
 		const splited = val.split('x');
 		let newVal = '';
-		// if first value is smaller than second one;
-		if(Number(splited[0]) < Number(splited[1])){
-			newVal = splited[1] + 'x' + splited[0];
-		}else {
-			newVal = val;
+		if(Number(splited[0]) < Number(splited[1])) newVal = splited[1] + 'x' + splited[0];		// first value is smaller than second one;
+		else newVal = val;
+		const regex = /^\d{1,2}x{1}\d{1,2}$/;
+		if(!regex.test(newVal))	$('#size-error').stop().fadeIn(500);		// wrong format;
+		else {
+			$('#size-error').stop().fadeOut(500);
+			TempJobsheet.size = newVal;
+			$('#coritec').prop('disabled', false);
 		}
-		TempJobsheet.size = newVal;
-		$('#coritec').prop('disabled', false);
+		
 	});
 	/**** Validate price*/
 	$('#product-price').on('input', function(){
@@ -259,12 +262,14 @@ document.addEventListener('DOMContentLoaded', function(){
 			e.stopImmediatePropagation();
 			const price = Number($(this).val().split('£')[1]).toFixed(2);
 			$(this).val(`£${price}`);
-			TempJobsheet.priceA = price;
 			// validate only if the price has been typed manually;
 			if($('#manual-range').is(':visible')){
 				const regex = /^\d{1,2}\.\d{2}$/;		// price format: 0.00/00.00;
 				if(!regex.test(price)) $('#price-error').stop().fadeIn(500);	// wrong price format;
-				else $('#price-error').stop().fadeOut(500);
+				else {
+					TempJobsheet.priceA = price;
+					$('#price-error').stop().fadeOut(500);
+				}
 			}
 		});
 	});
