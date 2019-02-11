@@ -8,9 +8,9 @@ if(!$_SESSION['logged']){
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wages app v.5</title>
+	<title>Wages app v.5</title>
 	<!-- fontawesome -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 	<link rel="stylesheet" href="../styles/main.css">
@@ -41,27 +41,30 @@ if(!$_SESSION['logged']){
 							<label>Invoice number<input id="invoice" class="sm-input invoice-input" type="text" min="0" placeholder="00000"></label>
 						</div>
 						<!-- Range -->
-						<div class="box-row">
-							<label for="ranges">Range:</label>
-							<select id="ranges">
+						<div class="box-row relative">
+							<label for="ranges"><i id="change-icon" class="fas fa-exchange-alt"></i> Range:</label>
+							<select id="ranges" class="select">
 								<option data-price="0">--please select--</option>
 							</select>
-							<div class="box-wrap hidden">
-								<input class="sm-input manual-input" type="text" placeholder="manual typing">
-								<i id="reverse-options" class="fas fa-undo-alt"></i>
+							<input id="manual-range" class="sm-input manual-input hidden" type="text" placeholder="manual typing">
+							<div id="typing-error" class="typing-error">
+								<p>Use letters only</p>
 							</div>
 						</div>
 						<!-- Size -->
 						<div class="box-row">
 							<label for="sizes">Size:</label>
-							<select id="sizes">
+							<select id="sizes" class="select">
 								<option data-price="0">--please select--</option>
 							</select>
 							<input id="manual-size" class="sm-input manual-input hidden" type="text" placeholder="manual typing">
 						</div>
 						<!-- Product price -->
-						<div class="box-row">
+						<div class="box-row relative">
 							<input id="product-price" class="sm-input" type="text" readonly value="£0.00">
+							<div id="price-error" class="typing-error price-error">
+								<p>Use format: 9.00/99.00</p>
+							</div>
 						</div>
 					</div>
 					<div class="flex-wrap">
@@ -121,7 +124,7 @@ if(!$_SESSION['logged']){
 						<div class="sm-box">
 							<div class="box-row">
 								<!-- btn -->
-								<button id="shelves-btn" class="btn-shelv" type="button">Shelvings</button>
+								<button id="shelves-btn" class="btn-shelv" type="button">Shelvings <i class="fas fa-plus"></i></button>
 								<div class="hidden-wrap">
 									<div>
 										<button class="close-btn" type="button">X</button>
@@ -258,8 +261,7 @@ if(!$_SESSION['logged']){
 						</li>
 					</ul>
 				</div>
-			<section id="tables-container" class="tables-wrap"></section>
-			
+				<section id="tables-container" class="tables-wrap"></section>
 			</section>
 			<!-- Week summary -->
 			<section class="section-wrap ">
