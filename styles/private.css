@@ -100,7 +100,8 @@ Styles for private/index.php only.
 }
 .box-row .typing-error {
 	position: absolute;
-	bottom: -2rem;
+/*	bottom: -2rem;*/
+	top: 100%;
 	right: 33%;
 	transform: translateX(50%);
 	background-color: rgba(255, 255, 255, 1);
@@ -110,7 +111,7 @@ Styles for private/index.php only.
 	text-align: center;
 	font-size: 1.2rem;
 	z-index: 2;
-/*	display: none;*/
+	display: none;
 }
 .box-row .typing-error::before {
 	content: '';
@@ -126,9 +127,10 @@ Styles for private/index.php only.
 	z-index: -1;
 }
 .box-row .typing-error.price-error {
-	top: 100%;
-	bottom: auto;
 	right: 50%;
+}
+.box-row .typing-error.size-error {
+	right: 37%;
 }
 .sm-box {
 	flex-basis: 15%;
