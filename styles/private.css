@@ -110,7 +110,7 @@ Styles for private/index.php only.
 	text-align: center;
 	font-size: 1.2rem;
 	z-index: 2;
-	display: none;
+/*	display: none;*/
 }
 .box-row .typing-error::before {
 	content: '';
@@ -124,6 +124,11 @@ Styles for private/index.php only.
 	border-left: .2rem solid rgba(255, 0, 0, .6);
 	border-top: .2rem solid rgba(255, 0, 0, .6);
 	z-index: -1;
+}
+.box-row .typing-error.price-error {
+	top: 100%;
+	bottom: auto;
+	right: 50%;
 }
 .sm-box {
 	flex-basis: 15%;
