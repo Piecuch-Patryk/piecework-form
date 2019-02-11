@@ -244,19 +244,29 @@ document.addEventListener('DOMContentLoaded', function(){
 	/**** Validate price*/
 	$('#product-price').on('input', function(){
 		const value = $(this).val();
+		$('#price-error').stop().fadeOut(500);	// hide error message;
 		// keep £ on front;
 		if(value.length == 0 || value.length < 2){
 			$(this).val('£' + value);
 			// prevent double £ symbol;
-			if($(this).val().split('')[1] == '£'){
-				$(this).val('£');
-			}
+			if($(this).val().split('')[1] == '£') $(this).val('£');
 		}
 		// confirm with ENTER;
 		$(this).on('keypress', function(e){
 			if(e.charCode == 13) this.blur();
 		});
-		$(this).on('blur', () => TempJobsheet.priceA = Number($(this).val().split('£')[1]));
+		$(this).on('blur', (e) => {
+			e.stopImmediatePropagation();
+			const price = Number($(this).val().split('£')[1]).toFixed(2);
+			$(this).val(`£${price}`);
+			TempJobsheet.priceA = price;
+			// validate only if the price has been typed manually;
+			if($('#manual-range').is(':visible')){
+				const regex = /^\d{1,2}\.\d{2}$/;		// price format: 0.00/00.00;
+				if(!regex.test(price)) $('#price-error').stop().fadeIn(500);	// wrong price format;
+				else $('#price-error').stop().fadeOut(500);
+			}
+		});
 	});
 	
 	/*
