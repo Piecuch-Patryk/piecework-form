@@ -59,6 +59,8 @@ document.addEventListener('DOMContentLoaded', function(){
 		TempJobsheet.setJobTotal();
 		// disable checkbox;
 		TempJobsheet.toggleCheckbox(false);
+		$('#manual-range').val('');
+		$('#manual-size').val('');
 	});
 	// size changed;
 	$('#sizes').on('change', function(){
@@ -267,7 +269,8 @@ document.addEventListener('DOMContentLoaded', function(){
 				const regex = /^\d{1,2}\.\d{2}$/;		// price format: 0.00/00.00;
 				if(!regex.test(price)) $('#price-error').stop().fadeIn(500);	// wrong price format;
 				else {
-					TempJobsheet.priceA = price;
+					TempJobsheet.priceA = Number(price);
+					TempJobsheet.setJobTotal();
 					$('#price-error').stop().fadeOut(500);
 				}
 			}
