@@ -52,12 +52,15 @@ if(!$_SESSION['logged']){
 							</div>
 						</div>
 						<!-- Size -->
-						<div class="box-row">
+						<div class="box-row relative">
 							<label for="sizes">Size:</label>
 							<select id="sizes" class="select">
 								<option data-price="0">--please select--</option>
 							</select>
 							<input id="manual-size" class="sm-input manual-input hidden" type="text" placeholder="manual typing">
+							<div id="size-error" class="typing-error size-error">
+								<p>Use format: 10x12/8x6/8x12</p>
+							</div>
 						</div>
 						<!-- Product price -->
 						<div class="box-row relative">
