@@ -293,6 +293,17 @@ if(!$_SESSION['logged']){
 		<div class="very-top-cover"></div>
 	<!-- End bg-cover -->
 	</div>
+	
+	<!--Restore previous tables - question wrap-->
+	<div id="previous-tables-question" class="fixed-info">
+		<div class="info-wrap">
+			<h4>Do you want to restore this week's tables?</h4>
+			<div class="flex-wrap">
+				<button class="submit-btn confirm-btn">Yes, please</button>
+				<button class="submit-btn decline-btn">No, thanks</button>
+			</div>
+		</div>
+	</div>
 	<!-- Confirmation message - email sent -->
 	<div id="confirmation" class="confirmation">
 		<h3>E-mail has been sent.</h3>
