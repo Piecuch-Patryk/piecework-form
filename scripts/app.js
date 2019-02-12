@@ -184,6 +184,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			WholeWeekData.setNet();
 			WholeWeekData.setAverageRate();
 			setHeight();
+			Tables[$('.active-day').index()].addToDatabase();
 		}
 	});
 	/*
