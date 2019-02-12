@@ -32,6 +32,7 @@ if(isset($_POST['username'])){
 							$_SESSION['name'] = $row['name'];
 							$_SESSION['surname'] = $row['surname'];
 							$_SESSION['email'] = $row['email'];
+							$_SESSION['userId'] = $row['id'];
 							header('Location: ../private/');							
 						}else{
 							$_SESSION['e_login_pass'] = 'Wrong pair email/password';
