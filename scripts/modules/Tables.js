@@ -154,4 +154,23 @@ class TableObj {
 	replaceInputs(){
 		$('.extra-hours').each((i, el) => $(el).replaceWith(' ' + $(el).val() + ' '));
 	}
+	// place tables HTML in to database;
+	addToDatabase(){
+		const date = $('.day-nav li').first().find('span').text().split('-').reverse().join('-');
+		const html = $('#tables-container').html().toString();
+		$.ajax({
+			type: 'POST',
+			url: '../app_php/auto_save_db.php',
+			data: {
+				date: date,
+				text: html
+			},
+			dataType: 'json',
+			success: function(result){
+				
+				console.log(result);
+				
+			}
+		});
+	}
 }
