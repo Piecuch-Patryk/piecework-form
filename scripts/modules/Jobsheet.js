@@ -374,6 +374,18 @@ class Job {
 		
 		$('#coritec').prop('checked', false);
 	}
+	// toggle question-wrap; Restore previous table?
+	toggleQuestionWrap(bool){
+		const $wrapper = $('#previous-tables-question');
+		// show;
+		if(bool){
+			$($wrapper).stop().fadeIn(500);
+		}
+		// hide;
+		else {
+			$($wrapper).stop().fadeOut(500);
+		}
+	}
 }
 
 

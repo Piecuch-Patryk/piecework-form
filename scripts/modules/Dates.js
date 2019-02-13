@@ -43,12 +43,19 @@ class Dates {
 	setWeekDates(){
 		$('.day-nav').find('span').each((i, el) => $(el).html(this.week[i]));
 	}
-	// set current week's dates in hidden title row in every table;
-	setHiddenTitle(){
-		$('.single-day .row.hidden td').each((i, el) => {
-			
-			
-			
+	// check for his week's table;
+	currentWeekTable(){
+		$.ajax({
+			type: 'POST',
+			url: '../app_php/getters/current_week_table.php',
+			data: {
+				date: this.lastMonday()
+			},
+			dataType: 'json',
+			success: function(result){
+				// Returns true if found table in databse
+				TempJobsheet.toggleQuestionWrap(result);
+			}
 		});
 	}
 }
