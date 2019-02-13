@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	DatesObj.setLastMonday();
 	DatesObj.calcWeekAhead();
 	DatesObj.setWeekDates();
+	DatesObj.currentWeekTable();
 	/**** Input*/
 	$('#week-date').on('input change', function(){
 		DatesObj.calcWeekAhead();
