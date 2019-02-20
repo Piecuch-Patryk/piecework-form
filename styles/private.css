@@ -431,37 +431,6 @@ footer p {
 	margin-top: 2rem;
 	letter-spacing: .08rem;
 }
-/*question wrap - restore tables*/
-.fixed-info {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	background-color: rgba(220, 220, 220, .5);
-	z-index: 5;
-	display: none;
-}
-.info-wrap {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background-color: rgba(255, 255, 255, .9);
-	padding: 5rem;
-	border-radius: .25rem;
-	box-shadow: 0 0 2rem 0 rgba(0,0,10,.9);
-}
-.private-bg .info-wrap .flex-wrap {
-	border: none;
-	padding: 2rem 2rem 0 2rem;
-}
-.submit-btn.confirm-btn {
-	background-color: rgba(0, 180, 40, 1);
-}
-.submit-btn.decline-btn {
-	background-color: rgba(180, 0, 40, 1);
-}
 /* cover page when shelvings section is open */
 .very-top-cover {
 	position: absolute;
