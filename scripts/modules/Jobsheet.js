@@ -374,6 +374,35 @@ class Job {
 		
 		$('#coritec').prop('checked', false);
 	}
+	currentDayDate(){
+		return $('.active-nav span').text().split('-').reverse().join('-');
+	}
+	// insert current job to database;
+	insertJobRow(){
+		const jsonBase = JSON.stringify(this.extras.base);
+		const jsonGuttering = JSON.stringify(this.extras.gutter);
+		const jsonWaterbutt = JSON.stringify(this.extras.waterbutt);
+		const jsonCoritec = JSON.stringify(this.extras.coritec);
+		const jsonShelves = JSON.stringify(this.extras.shelvings.shelves);
+		
+		$.ajax({
+			type: 'POST',
+			url: '../app_php/update_job_row/saveJobRow.php',
+			data: {
+				invoice: this.invoice,
+				range: this.range,
+				size: this.size,
+				price: this.priceA * 100,
+				base: jsonBase,
+				guttering: jsonGuttering,
+				waterbutt: jsonWaterbutt,
+				coritec: jsonCoritec,
+				shelves: jsonShelves,
+				date: this.currentDayDate()
+			},
+			dataType: 'json',
+		});
+	}
 }
 
 
