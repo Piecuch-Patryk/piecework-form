@@ -5,7 +5,7 @@ function sterilizeRangeInput($str){
 }
 if(isset($_GET['range'])){
 	$str = $_GET['range'];
-	if(!sterilizeRangeInput($str)){
+	if(sterilizeRangeInput($str) === false){
 		die(json_encode('Not this time mate!'));
 	}
 	// Db connection

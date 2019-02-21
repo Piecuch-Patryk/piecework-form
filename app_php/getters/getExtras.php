@@ -7,7 +7,7 @@ function sterilizeDataInput($str){
 if(isset($_GET['size'])){
 	$size = $_GET['size'];
 	$data = $_GET['data'];
-	if(!sterilizeDataInput($data)){
+	if(sterilizeDataInput($data) === false){
 		die(json_encode('Not this time mate!'));
 	}
 	// Db connection
