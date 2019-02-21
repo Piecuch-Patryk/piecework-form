@@ -175,6 +175,8 @@ document.addEventListener('DOMContentLoaded', function(){
 		// only if form was completed;
 		if((TempJobsheet.size != '') && ($('#invoice').val().length > 3)){
 			$('.active-day').find('tbody').prepend(TempJobsheet.prependRow());
+			// update database;
+			TempJobsheet.insertJobRow();
 			TempJobsheet.toggleCheckbox(false);
 			TempJobsheet.resetDOMelements();
 			TempJobsheet = new Job();
@@ -312,6 +314,7 @@ document.addEventListener('DOMContentLoaded', function(){
 			ev.stopImmediatePropagation();
 			Tables[$('.active-day').index()].calcExtraHours();
 			Tables[$('.active-day').index()].setExtraHours();
+			WholeWeekData.setAverageRate();
 			WholeWeekData.setGross();
 			WholeWeekData.setNet();
 		});
