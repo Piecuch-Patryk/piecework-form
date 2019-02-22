@@ -154,4 +154,16 @@ class TableObj {
 	replaceInputs(){
 		$('.extra-hours').each((i, el) => $(el).replaceWith(' ' + $(el).val() + ' '));
 	}
+	// remove chosen from from database;
+	removeRowDB(ev){
+		const invoice = $(ev.target).parent().text();
+		$.ajax({
+			type: 'POST',
+			url: '../app_php/update_job_row/removeJobRow.php',
+			data: {
+				invoice: invoice
+			},
+			dataType: 'json'
+		});
+	}
 }
