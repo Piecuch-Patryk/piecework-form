@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	
 	/**** Input*/
 	$('#week-date').on('input change', function(){
+		DatesObj.currentWeekMonday();
 		DatesObj.calcWeekAhead();
 		DatesObj.setWeekDates();
 	});
@@ -332,10 +333,11 @@ document.addEventListener('DOMContentLoaded', function(){
 					$(this).removeClass('active-row');
 				});
 				// delete chosen row;
-				$(this).find('.far').on('click', function(e){
-					e.stopImmediatePropagation();
+				$(this).find('.far').on('click', function(ev){
+					ev.stopImmediatePropagation();
 					const price = $(this).closest('.row-job').find('.cell').last().text().split('£')[1];
 					TempJobsheet.removeRow(price);
+					Tables[$('.active-day').index()].removeRowDB(ev);
 					$(this).closest('.row-job').remove();
 					WholeWeekData.setGross();
 					WholeWeekData.setNet();
