@@ -3,8 +3,9 @@ class Dates {
 		this.week = [];
 	}
 	// calculate the last Monday date;
-	lastMonday(){
+	lastMonday(value){
 		let date = new Date();
+		if(value) date = new Date(value);
 		date.setDate(date.getDate() - (date.getDay() + 6) % 7);
 		const day = ("0" + date.getDate()).slice(-2);
 		const month = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -13,6 +14,10 @@ class Dates {
 	}
 	setLastMonday(){
 		$('#week-date').val(this.lastMonday());
+	}
+	currentWeekMonday(){
+		const dateField = $('#week-date');
+		$(dateField).val(this.lastMonday(dateField.val()));
 	}
 	// calculate dates for week ahead;
 	calcWeekAhead(){
@@ -42,20 +47,5 @@ class Dates {
 	// set current week's dates in day-nav;
 	setWeekDates(){
 		$('.day-nav').find('span').each((i, el) => $(el).html(this.week[i]));
-	}
-	// check for his week's table;
-	currentWeekTable(){
-		$.ajax({
-			type: 'POST',
-			url: '../app_php/getters/current_week_table.php',
-			data: {
-				date: this.lastMonday()
-			},
-			dataType: 'json',
-			success: function(result){
-				// Returns true if found table in databse
-				TempJobsheet.toggleQuestionWrap(result);
-			}
-		});
 	}
 }
