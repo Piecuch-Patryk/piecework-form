@@ -8,9 +8,39 @@ if(isset($_POST['invoice'])){
 		if($connection->connect_errno != 0){
 			throw new exception(mysqli_connect_error());
 		}else{
-			$stmt = $connection->prepare("INSERT INTO `jobs`(`id`, `userId`, `date`, `invoice`, `rangeType`, `size`, `price`, `base`, `guttering`, `waterbutt`, `coritec`, `shelves`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-			$stmt->bind_param('isississsss', $_SESSION['userId'], $_POST['date'], $_POST['invoice'], $_POST['range'], $_POST['size'], $_POST['price'], $_POST['base'], $_POST['guttering'], $_POST['waterbutt'], $_POST['coritec'], $_POST['shelves']);
+			$stmt = $connection->prepare("INSERT INTO `jobs`(`id`,
+			`userId`,
+			`date`,
+			`invoice`,
+			`rangeType`,
+			`size`,
+			`price`,
+			`extras`,
+			`shelvesChecked`,
+			`base`,
+			`guttering`,
+			`waterbutt`,
+			`coritec`,
+			`shelves`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			$stmt->bind_param('isissiiisssss',
+												$_SESSION['userId'],
+												$_POST['date'],
+												$_POST['invoice'],
+												$_POST['range'],
+												$_POST['size'],
+												$_POST['price'],
+												$_POST['extras'],
+												$_POST['shelvesChecked'],
+												$_POST['base'],
+												$_POST['guttering'],
+												$_POST['waterbutt'],
+												$_POST['coritec'],
+												$_POST['shelves']);
 			$stmt->execute();
+			
+			echo $stmt->error;
+			
+			$connection->close();
 		}
 	}catch(Exception $e){
 		die('Error: ' . $e);
