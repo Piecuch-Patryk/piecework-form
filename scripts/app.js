@@ -18,12 +18,14 @@ document.addEventListener('DOMContentLoaded', function(){
 	DatesObj.setLastMonday();
 	DatesObj.calcWeekAhead();
 	DatesObj.setWeekDates();
+	DatesObj.getWeekTables();
 	
 	/**** Input*/
 	$('#week-date').on('input change', function(){
 		DatesObj.currentWeekMonday();
 		DatesObj.calcWeekAhead();
 		DatesObj.setWeekDates();
+		DatesObj.getWeekTables();
 	});
 	
 	/*
@@ -365,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	PDF creator
 	
 	*/
-	
+		
 	/**** Hidden form - submit*/
 	$('#generate-email').on('click', function(){
 		Tables[$('.active-day').index()].replaceInputs();
@@ -384,8 +386,25 @@ document.addEventListener('DOMContentLoaded', function(){
 		WholeWeekData.resetDOM();
 		WholeWeekData = new WeekTotal();
 	});
-
 	
+	/*
 	
+	Restore current week's jobs
 	
+	*/
+	
+	/**** No*/
+	$('#restoreNo').on('click', function(){
+		$('#restoreJobsWrap').animate({
+			opacity: 0
+		}, 500, function(){
+			$(this).css({
+				display: 'none'
+			});
+		});
+	});
+	/**** Yes*/
+	$('#restoreYes').on('click', function(){
+		console.log('restore');
+	});
 });
