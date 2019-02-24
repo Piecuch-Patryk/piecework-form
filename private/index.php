@@ -294,6 +294,14 @@ if(!$_SESSION['logged']){
 	<!-- End bg-cover -->
 	</div>
 	
+	<!-- Restore job wrap -->
+	<div id="restoreJobsWrap" class="restore-job-wrap">
+		<div class="inner-wrap">
+			<h2>Restore saved jobs for current week?</h2>
+			<button id="restoreYes" class="submit-btn yes">Yes</button>
+			<button id="restoreNo" class="submit-btn no">No</button>
+		</div>
+	</div>
 	<!-- Confirmation message - email sent -->
 	<div id="confirmation" class="confirmation">
 		<h3>E-mail has been sent.</h3>
