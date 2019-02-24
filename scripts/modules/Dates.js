@@ -60,6 +60,7 @@ class Dates {
 			success: function (result){
 				for(let i = 0; i < result.length; i++) {
 					if(result[i].length > 0) {
+						TempJobsheet.databaseResult = result;
 						DatesObj.showInfo();
 						break;
 					}
@@ -76,5 +77,23 @@ class Dates {
 			.animate({
 				opacity: 1
 		}, 500);
+	}
+	// hide info;
+	hideInfo(){
+		$('#restoreJobsWrap').animate({
+			opacity: 0
+		}, 500, function(){
+			$(this).css({
+				display: 'none'
+			});
+		});
+	}
+	// check if any rows exist in the week's tables;
+	checkForRows(){
+		$(Tables).each((i, el) => {
+			if(el.rows.length){
+				console.log('are you sure?');
+			}
+		});
 	}
 }

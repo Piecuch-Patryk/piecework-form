@@ -10,7 +10,7 @@ class Job {
 		this.option = $('<option>').attr('data-price', 0);
 		this.optionDefault = $(this.option).clone().html('--please select--');
 		this.extras = {
-			checked: false,
+			checked: 0,
 			base: {
 				type: '',
 				checked: false,
@@ -31,7 +31,7 @@ class Job {
 				checked: false
 			},
 			shelvings: {
-				checked: false,
+				checked: 0,
 				shelves: [],
 				calcSingleShelv(obj){
 					const qty = $(obj).val();
@@ -74,8 +74,8 @@ class Job {
 							array.push(new Shelv());
 						}
 					});
-					if(array.length > 0) this.checked = true;
-					else this.checked = false;
+					if(array.length > 0) this.checked = 1;
+					else this.checked = 0;
 					return array;
 				},
 				getShelvesData(){
@@ -103,7 +103,7 @@ class Job {
 				setSingleshelvPrice(obj){
 					const $priceBox = $(obj).closest('.sm-box').find('input[type="text"]');
 					const sum = this.calcSingleShelv(obj) / 100;
-					$($priceBox).val(`£${sum.toFixed(2)}`);					
+					$($priceBox).val(`£${sum.toFixed(2)}`);
 				},
 				setShelvesPrices(){
 					const $priceBox = $('#shelves-total');
@@ -129,6 +129,7 @@ class Job {
 				$('#extras-total').val(`£${this.calcExtrasTotal()}`);
 			}
 		};
+		this.databaseResult = [];
 	}
 	// job total price;
 	calcJobTotal(){
@@ -145,7 +146,7 @@ class Job {
 	prependRow(){
 		const $newRow = $(this.row).clone();
 		const currentIndex = $('.active-day').index();
-		
+
 		$(this.cell).clone().html(this.invoice).append($('<i>').addClass('far fa-trash-alt')).addClass('cell cell-invoice').appendTo($newRow);
 		$(this.cell).clone().html(this.range).addClass('cell').appendTo($newRow);
 		$(this.cell).clone().html(this.size).addClass('cell').appendTo($newRow);
@@ -374,7 +375,7 @@ class Job {
 		
 		$('#coritec').prop('checked', false);
 	}
-	currentDayDate(){
+	currentWeekDate(){
 		return $('.active-nav span').text().split('-').reverse().join('-');
 	}
 	// insert current job to database;
@@ -393,14 +394,53 @@ class Job {
 				range: this.range,
 				size: this.size,
 				price: this.priceA * 100,
+				extras: this.extras.checked,
+				shelvesChecked: this.extras.shelvings.checked,
 				base: jsonBase,
 				guttering: jsonGuttering,
 				waterbutt: jsonWaterbutt,
 				coritec: jsonCoritec,
 				shelves: jsonShelves,
-				date: this.currentDayDate()
+				date: this.currentWeekDate()
 			},
 			dataType: 'json',
+		});
+	}
+	// prepare jobsheet based on database result;
+	prepareTempJob(){
+		const $tableDay = $('.single-day');
+		
+		$(this.databaseResult).each((i, el) => {
+			if(el.length > 0){
+				// data exist in array;
+				$('.active-day').removeClass('active-day');
+				$($tableDay[i]).addClass('active-day');
+				$(el).each((index, row) => {
+					// prepare values;
+					this.invoice = row.invoice;
+					this.range = row.rangeType;
+					this.size = row.size;
+					this.priceA = row.price / 100;
+					this.extras.checked = row.extras;
+					this.extras.base = JSON.parse(row.base);
+					this.extras.gutter = JSON.parse(row.guttering);
+					this.extras.waterbutt = JSON.parse(row.waterbutt);
+					this.extras.coritec = JSON.parse(row.coritec);
+					this.extras.shelvings.checked = row.shelvesChecked;
+					this.extras.shelvings.shelves = JSON.parse(row.shelves);
+					$($tableDay[i]).find('tbody').prepend(this.prependRow());
+					WholeWeekData.setGross();
+					WholeWeekData.setNet();
+					WholeWeekData.setAverageRate();
+					Tables[i].rows.push(this.prependRow());
+					TempJobsheet = new Job();
+				});
+			}
+			$('.active-day').removeClass('active-day');
+			$($tableDay[0]).addClass('active-day');
+			$('.active-nav').removeClass('active-nav');
+			$('.day-nav').find('li').first().addClass('active-nav');
+			setHeight();
 		});
 	}
 }
