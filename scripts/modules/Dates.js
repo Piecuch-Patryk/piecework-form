@@ -48,4 +48,33 @@ class Dates {
 	setWeekDates(){
 		$('.day-nav').find('span').each((i, el) => $(el).html(this.week[i]));
 	}
+	// check current week's tables in database;
+	getWeekTables(){
+		$.ajax({
+			type: 'GET',
+			url: '../app_php/getters/week_tables.php',
+			data: {
+				weekDates: this.week
+			},
+			dataType: 'json',
+			success: function (result){
+				for(let i = 0; i < result.length; i++) {
+					if(result[i].length > 0) {
+						DatesObj.showInfo();
+						break;
+					}
+				}
+			}
+		});
+	}
+	// show info about found jobs;
+	showInfo(){
+		$('#restoreJobsWrap')
+			.css({
+				display: 'flex'
+		})
+			.animate({
+				opacity: 1
+		}, 500);
+	}
 }
