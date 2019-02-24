@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	
 	/**** Input*/
 	$('#week-date').on('input change', function(){
+		DatesObj.checkForRows();
 		DatesObj.currentWeekMonday();
 		DatesObj.calcWeekAhead();
 		DatesObj.setWeekDates();
@@ -112,8 +113,8 @@ document.addEventListener('DOMContentLoaded', function(){
 						TempJobsheet.setJobTotal();
 						return;
 					}
-					TempJobsheet.extras.checked = true;
-					TempJobsheet.extras[name].checked = true;
+					TempJobsheet.extras.checked = 1;
+					TempJobsheet.extras[name].checked = 1;
 					// get price for selected extras;
 					TempJobsheet.getExtras(name, dataIndex);
 				});
@@ -126,12 +127,12 @@ document.addEventListener('DOMContentLoaded', function(){
 		if($(this).is(':checked')){
 			// checked;
 			TempJobsheet.getExtras(name);
-			TempJobsheet.extras.checked = true;
-			TempJobsheet.extras[name].checked = true;
+			TempJobsheet.extras.checked = 1;
+			TempJobsheet.extras[name].checked = 1;
 		}else {
 			TempJobsheet.resetPrice(name);
-			TempJobsheet.extras.checked = false;
-			TempJobsheet.extras[name].checked = false;
+			TempJobsheet.extras.checked = 0;
+			TempJobsheet.extras[name].checked = 0;
 		}
 		TempJobsheet.extras.setExtrasPrice(name);
 		TempJobsheet.extras.setExtrasTotal();
@@ -177,8 +178,9 @@ document.addEventListener('DOMContentLoaded', function(){
 	$('#submit-job').on('click', function(){
 		// only if form was completed;
 		if((TempJobsheet.size != '') && ($('#invoice').val().length > 3)){
+			const index = $('.active-day').index();
 			$('.active-day').find('tbody').prepend(TempJobsheet.prependRow());
-			// update database;
+			Tables[index].rows.push(TempJobsheet.prependRow());
 			TempJobsheet.insertJobRow();
 			TempJobsheet.toggleCheckbox(false);
 			TempJobsheet.resetDOMelements();
@@ -308,6 +310,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		$($currentTable).addClass('active-day');
 		$('.active-nav').removeClass('active-nav');
 		$(this).addClass('active-nav');
+		setHeight();
 	});
 	
 	/**** Extra hours - subtotal*/
@@ -338,6 +341,8 @@ document.addEventListener('DOMContentLoaded', function(){
 				$(this).find('.far').on('click', function(ev){
 					ev.stopImmediatePropagation();
 					const price = $(this).closest('.row-job').find('.cell').last().text().split('£')[1];
+					const currentRowIndex = $(this).closest('.row').index();
+					Tables[$('.active-day').index()].rows.splice(currentRowIndex, 1);
 					TempJobsheet.removeRow(price);
 					Tables[$('.active-day').index()].removeRowDB(ev);
 					$(this).closest('.row-job').remove();
@@ -395,16 +400,12 @@ document.addEventListener('DOMContentLoaded', function(){
 	
 	/**** No*/
 	$('#restoreNo').on('click', function(){
-		$('#restoreJobsWrap').animate({
-			opacity: 0
-		}, 500, function(){
-			$(this).css({
-				display: 'none'
-			});
-		});
+		DatesObj.hideInfo();
+		TempJobsheet.databaseResult = [];
 	});
 	/**** Yes*/
 	$('#restoreYes').on('click', function(){
-		console.log('restore');
+		DatesObj.hideInfo();
+		TempJobsheet.prepareTempJob();
 	});
 });
