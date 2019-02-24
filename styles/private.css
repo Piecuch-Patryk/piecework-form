@@ -466,6 +466,36 @@ footer p {
 	display: block;
 }
 
+/*Restore job wrap*/
+.restore-job-wrap {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(24, 24, 33, .8);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 10;
+	opacity: 0;
+	display: none;
+}
+.restore-job-wrap .inner-wrap {
+	text-align: center;
+	background-color: rgba(220, 220, 220, .7);
+	padding: 5rem 8rem;
+	box-shadow: inset 0 0 1rem 0 #fff , 0 0 .25rem .1rem #fff , 0 0 1rem .2rem rgba(24, 24, 33, 1);
+}
+.restore-job-wrap .submit-btn {
+	margin: 4rem 2rem 2rem 2rem;
+}
+.submit-btn.yes {
+	background-color: rgba(0, 150, 40, 1);
+}
+.submit-btn.no {
+	background-color: rgba(150, 0, 40, 1);
+}
 /*Loading animation*/
 .loading-animation-wrap {
 	position: fixed;
