@@ -416,7 +416,9 @@ class Job {
 				// data exist in array;
 				$('.active-day').removeClass('active-day');
 				$($tableDay[i]).addClass('active-day');
+				Tables[i].removeRows(i);
 				$(el).each((index, row) => {
+					
 					// prepare values;
 					this.invoice = row.invoice;
 					this.range = row.rangeType;

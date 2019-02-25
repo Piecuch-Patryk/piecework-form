@@ -1,5 +1,7 @@
 class Dates {
 	constructor(){
+		this.currentMonday = '';
+		this.newMonday = '';
 		this.week = [];
 	}
 	// calculate the last Monday date;
@@ -86,14 +88,6 @@ class Dates {
 			$(this).css({
 				display: 'none'
 			});
-		});
-	}
-	// check if any rows exist in the week's tables;
-	checkForRows(){
-		$(Tables).each((i, el) => {
-			if(el.rows.length){
-				console.log('are you sure?');
-			}
 		});
 	}
 }

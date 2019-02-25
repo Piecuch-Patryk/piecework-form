@@ -166,4 +166,17 @@ class TableObj {
 			dataType: 'json'
 		});
 	}
+	// remove all rows from DOM;
+	removeRows(index){
+		const $table = $('.single-day');
+		$('.active-day').removeClass('active-day');
+		$($table[index])
+			.addClass('active-day')
+			.find('.row-job').remove();
+		Tables.fill(new TableObj(), index, index + 1);
+		this.setSubtotalAB();
+		WholeWeekData.setGross();
+		WholeWeekData.setNet();
+		WholeWeekData.setAverageRate();
+	}
 }
