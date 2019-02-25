@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		if((TempJobsheet.size != '') && ($('#invoice').val().length > 3)){
 			const index = $('.active-day').index();
 			$('.active-day').find('tbody').prepend(TempJobsheet.prependRow());
-			Tables[index].rows.push(TempJobsheet.prependRow());
+			Tables[index].rows.push(TempJobsheet.prependRow(true));
 			TempJobsheet.insertJobRow();
 			TempJobsheet.toggleCheckbox(false);
 			TempJobsheet.resetDOMelements();
