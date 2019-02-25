@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function(){
 	Date
 	
 	*/
-	// set the date of last Monday;
 	DatesObj.setLastMonday();
 	DatesObj.calcWeekAhead();
 	DatesObj.setWeekDates();
@@ -22,7 +21,8 @@ document.addEventListener('DOMContentLoaded', function(){
 	
 	/**** Input*/
 	$('#week-date').on('input change', function(){
-		DatesObj.checkForRows();
+		$(Tables).each((i, el) => Tables[i].removeRows(i));
+		setHeight();
 		DatesObj.currentWeekMonday();
 		DatesObj.calcWeekAhead();
 		DatesObj.setWeekDates();
