@@ -143,7 +143,7 @@ class Job {
 		$('#total').val(`£${sum.toFixed(2)}`);
 	}
 	// prepend to table body;
-	prependRow(){
+	prependRow(bool){
 		const $newRow = $(this.row).clone();
 		const currentIndex = $('.active-day').index();
 
@@ -205,10 +205,11 @@ class Job {
 		$(this.cell).clone().html('£' + this.calcJobTotal().toFixed(2)).addClass('cell').appendTo($newRow);
 		$($newRow).addClass('row row-job');
 		
-		// update subtotal A+B in current table;
-		Tables[currentIndex].jobsSubtotal += this.calcJobTotal();
-		Tables[currentIndex].setSubtotalAB();
-
+		if(!bool){
+			// update subtotal A+B in current table;
+			Tables[currentIndex].jobsSubtotal += this.calcJobTotal();
+			Tables[currentIndex].setSubtotalAB();
+		}
 		return $newRow;
 	}
 	removeRow(price){
@@ -432,7 +433,7 @@ class Job {
 					WholeWeekData.setGross();
 					WholeWeekData.setNet();
 					WholeWeekData.setAverageRate();
-					Tables[i].rows.push(this.prependRow());
+					Tables[i].rows.push(this.prependRow(true));
 					TempJobsheet = new Job();
 				});
 			}
